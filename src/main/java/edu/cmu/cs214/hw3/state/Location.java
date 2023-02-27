@@ -20,7 +20,7 @@ public class Location {
 
     // checking valid locations for a 5x5 grid
     public boolean checkValidLocation() {
-        if (this.row < 0 || this.row >= Grid.gridSize || this.col < 0 || this.col >= Grid.gridSize) return false;
+        if (this.row < 0 || this.row >= Grid.GRID_SIZE || this.col < 0 || this.col >= Grid.GRID_SIZE) return false;
         else return true;
     }
 
