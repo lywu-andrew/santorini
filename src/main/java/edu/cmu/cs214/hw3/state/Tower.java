@@ -1,4 +1,4 @@
-package main.java.edu.cmu.cs214.hw3.state;
+package edu.cmu.cs214.hw3.state;
 
 public class Tower {
 

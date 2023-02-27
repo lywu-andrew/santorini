@@ -1,6 +1,6 @@
-package main.java.edu.cmu.cs214.hw3.player;
+package edu.cmu.cs214.hw3.player;
 
-import main.java.edu.cmu.cs214.hw3.state.Location;
+import edu.cmu.cs214.hw3.state.Location;
 
 public class Worker {
     

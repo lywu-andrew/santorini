@@ -1,5 +1,9 @@
 package edu.cmu.cs214.hw3;
 
+import edu.cmu.cs214.hw3.player.Player;
+import edu.cmu.cs214.hw3.player.Worker;
+import edu.cmu.cs214.hw3.state.Location;
+
 /**
  * implementation is assuming the players are switching off when interacting with the system
  *

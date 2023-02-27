@@ -1,11 +1,11 @@
-package main.java.edu.cmu.cs214.hw3;
+package edu.cmu.cs214.hw3;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
 
-import main.java.edu.cmu.cs214.hw3.player.Player;
-import main.java.edu.cmu.cs214.hw3.state.Grid;
-import main.java.edu.cmu.cs214.hw3.state.Location;
+import edu.cmu.cs214.hw3.player.Player;
+import edu.cmu.cs214.hw3.state.Grid;
+import edu.cmu.cs214.hw3.state.Location;
 
 public class Game {
 

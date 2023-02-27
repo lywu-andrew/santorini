@@ -1,4 +1,4 @@
-package test.java.edu.cmu.cs214.hw3;
+package edu.cmu.cs214.hw3;
 
 public class WorkerTest {
     

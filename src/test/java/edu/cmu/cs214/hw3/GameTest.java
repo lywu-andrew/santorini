@@ -1,13 +1,12 @@
-package test.java.edu.cmu.cs214.hw3;
+package edu.cmu.cs214.hw3;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import main.java.edu.cmu.cs214.hw3.Game;
-import main.java.edu.cmu.cs214.hw3.player.Player;
-import main.java.edu.cmu.cs214.hw3.player.Worker;
-import main.java.edu.cmu.cs214.hw3.state.Grid;
-import main.java.edu.cmu.cs214.hw3.state.Location;
+import edu.cmu.cs214.hw3.player.Player;
+import edu.cmu.cs214.hw3.player.Worker;
+import edu.cmu.cs214.hw3.state.Grid;
+import edu.cmu.cs214.hw3.state.Location;
 
 import static org.junit.Assert.*;
 
