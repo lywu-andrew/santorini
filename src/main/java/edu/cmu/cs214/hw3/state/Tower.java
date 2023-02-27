@@ -2,7 +2,7 @@ package main.java.edu.cmu.cs214.hw3.state;
 
 public class Tower {
 
-    static final int highestLevel = 3;
+    static final int HIGHEST_LEVEL = 3;
     
     private int level;
     private boolean hasDome;
@@ -28,7 +28,7 @@ public class Tower {
 
     public void build() {
         // no check for dome; already checked in Grid isOccupied
-        if (this.level == highestLevel) this.hasDome = true;
+        if (this.level == HIGHEST_LEVEL) this.hasDome = true;
         else this.level += 1;
     }
 }

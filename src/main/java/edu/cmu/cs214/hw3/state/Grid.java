@@ -5,15 +5,15 @@ import java.util.List;
 
 public class Grid {
     
-    static final int gridSize = 5;
+    static final int GRID_SIZE = 5;
 
     private Tower[][] gridState;
     private List<Location> occupiedFields;
 
     public Grid() {
-        this.gridState = new Tower[gridSize][gridSize];
-        for (int i = 0; i < gridSize; i++) {
-            for (int j = 0; j < gridSize; j++) {
+        this.gridState = new Tower[GRID_SIZE][GRID_SIZE];
+        for (int i = 0; i < GRID_SIZE; i++) {
+            for (int j = 0; j < GRID_SIZE; j++) {
                 this.gridState[i][j] = new Tower(i, j);
             }
         }
@@ -36,7 +36,7 @@ public class Grid {
 
     public boolean highest(Location loc) {
         Tower tower = getTower(loc);
-        if (tower.getLevel() == Tower.highestLevel) return true;
+        if (tower.getLevel() == Tower.HIGHEST_LEVEL) return true;
         else return false;
     }
 
