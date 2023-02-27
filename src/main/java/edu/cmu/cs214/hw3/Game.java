@@ -7,7 +7,6 @@ import main.java.edu.cmu.cs214.hw3.player.Player;
 import main.java.edu.cmu.cs214.hw3.state.Grid;
 import main.java.edu.cmu.cs214.hw3.state.Location;
 
-// this implementation is assuming the players are switching off when interacting with the system
 public class Game {
 
     private boolean hasGameEnded;
@@ -15,12 +14,10 @@ public class Game {
     private Grid grid;
     private Dictionary<Integer, Player> players;
 
-    public Game() {
-        Player p1 = new Player(1);
-        Player p2 = new Player(2);
+    public Game(Player p1, Player p2) {
         this.players = new Hashtable<>();
-        this.players.put(1, p1);
-        this.players.put(2, p2);
+        this.players.put(p1.getID(), p1);
+        this.players.put(p2.getID(), p2);
         this.grid = new Grid();
         this.hasGameEnded = false;
         this.playerTurn = 1;

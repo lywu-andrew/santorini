@@ -11,13 +11,11 @@ public class Player {
     private Dictionary<Integer, Worker> workers;
     private Location[] workerPositions;
 
-    public Player(int id) {
+    public Player(int id, Worker w1, Worker w2) {
         this.id = id;
-        Worker w1 = new Worker(1);
-        Worker w2 = new Worker(2);
         this.workers = new Hashtable<>();
-        this.workers.put(1, w1);
-        this.workers.put(2, w2);
+        this.workers.put(w1.getID(), w1);
+        this.workers.put(w2.getID(), w2);
         this.workerPositions = new Location[this.workers.size()];
     }
 
