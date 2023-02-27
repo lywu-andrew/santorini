@@ -1,11 +1,13 @@
 package main.java.edu.cmu.cs214.hw3.player;
 
+import main.java.edu.cmu.cs214.hw3.state.Location;
+
 public class Worker {
     
-    public int id;
+    public Integer id;
     private Location position;
 
-    public Worker(int id) {
+    public Worker(Integer id) {
         this.id = id;
         this.position = new Location(-1, -1); // default: hasn't been placed
     }

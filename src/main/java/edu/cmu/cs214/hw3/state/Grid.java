@@ -1,5 +1,6 @@
 package main.java.edu.cmu.cs214.hw3.state;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Grid {
@@ -16,7 +17,7 @@ public class Grid {
         }
         this.occupiedFields = new ArrayList<Location>();
     }
-    
+
     public Tower getTower(Location loc) {
         int row = loc.row;
         int col = loc.col;

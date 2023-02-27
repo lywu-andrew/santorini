@@ -1,11 +1,14 @@
 package main.java.edu.cmu.cs214.hw3.player;
 
+import java.util.Dictionary;
 import java.util.Hashtable;
+
+import main.java.edu.cmu.cs214.hw3.state.Location;
 
 public class Player {
     
     public int id;
-    public Dictionary<Worker.id, Worker> workers;
+    public Dictionary<Integer, Worker> workers;
     public Location[] workerPositions;
 
     public Player(int id) {
@@ -13,17 +16,17 @@ public class Player {
         Worker w1 = new Worker(1);
         Worker w2 = new Worker(2);
         this.workers = new Hashtable<>();
-        this.workers.add(1, w1);
-        this.workers.add(2, w2);
+        this.workers.put(1, w1);
+        this.workers.put(2, w2);
         this.workerPositions = new Location[this.workers.size()];
     }
 
-    private Worker getWorker(Worker.id wid) {
+    private Worker getWorker(Integer wid) {
         return this.workers.get(wid);
     }
 
-    public Location getWorkerPosition(Worker.id wid) {
-        Worker worker = getWorker();
+    public Location getWorkerPosition(Integer wid) {
+        Worker worker = getWorker(wid);
         return worker.getPosition();
     }
 
@@ -32,17 +35,17 @@ public class Player {
     }
 
     // is this an adj location to the worker
-    public boolean isAdjLocation(Worker.id wid, Location loc) {
-        Worker worker = getWorker();
+    public boolean isAdjLocation(Integer wid, Location loc) {
+        Worker worker = getWorker(wid);
         Location pos = worker.getPosition();
         if (loc.adjacent(pos)) return true;
         else return false;
     }
 
-    public void place(Worker.id wid, Location loc) {
-        Worker worker = getWorker();
+    public void place(Integer wid, Location loc) {
+        Worker worker = getWorker(wid);
         worker.move(loc);
-        this.workerPositions[wid - 1] = loc;
+        this.workerPositions[wid - 1] = loc; // player id's start at 1, but arrays are 0 indexed
     }
 
 }

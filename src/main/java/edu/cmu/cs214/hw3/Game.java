@@ -3,13 +3,17 @@ package main.java.edu.cmu.cs214.hw3;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
-// in this implementation, i'm assuming the players are switching off when interacting with the system
+import main.java.edu.cmu.cs214.hw3.player.Player;
+import main.java.edu.cmu.cs214.hw3.state.Grid;
+import main.java.edu.cmu.cs214.hw3.state.Location;
+
+// this implementation is assuming the players are switching off when interacting with the system
 public class Game {
 
     private boolean hasGameEnded;
-    private Player.id playerTurn;
+    private Integer playerTurn;
     public Grid grid;
-    public Dictionary<Player.id, Player> players;
+    public Dictionary<Integer, Player> players;
 
     public Game() {
         Player p1 = new Player(1);
@@ -59,7 +63,7 @@ public class Game {
         nextPlayer();
     }
 
-    public void move(Worker.id id, Location loc) {
+    public void move(Integer id, Location loc) {
         if (!loc.checkValidLocation()) {
             System.out.println("Please input valid location (rows 0-4, cols 0-4)");
         }
@@ -82,7 +86,7 @@ public class Game {
         }
         if (!grid.tryBuild(loc)) {
             System.out.println("Grid is occupied at that location.");
-        } else if (checkWin) {          // check if current player has won
+        } else if (checkWin()) {          // check if current player has won
             this.hasGameEnded = true;
         } else {                        // if player has not won on this turn, switch players
             nextPlayer();
