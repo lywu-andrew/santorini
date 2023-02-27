@@ -47,10 +47,21 @@ public class Grid {
         return false;
     }
 
-    public boolean tryOccupy(Location loc) {
+    private boolean tryOccupy(Location loc) {
         if (isOccupied(loc)) return false;
         else {
             occupiedFields.add(loc);
+            return true;
+        }
+    }
+
+    public boolean tryPlace(Location loc1, Location loc2) {
+        if (!tryOccupy(loc1)) {
+            return false;
+        } else if (!tryOccupy(loc2)) {
+            occupiedFields.remove(loc1);
+            return false;
+        } else {
             return true;
         }
     }
