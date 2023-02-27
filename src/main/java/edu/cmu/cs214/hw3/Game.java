@@ -31,25 +31,17 @@ public class Game {
         return this.players.get(this.playerTurn);
     }
 
-    private boolean checkValidLocation(Location loc) {
-        int row = loc.row;
-        int col = loc.col;
-        if (row < 0 || row > 4 || col < 0 || col > 4) return false;
-        else return true;
-    }
-
     private boolean checkWin() {
         Player currPlayer = getCurrentPlayer();
         Location[] plocs = currPlayer.getWorkerPositions();
         for (Location loc: plocs) {
-            Tower tower = grid.getTower(loc);
-            if (tower.getLevel() == 3) this.hasGameEnded = true;
+            if (grid.highest(loc)) this.hasGameEnded = true;
         }
         return this.hasGameEnded;
     }
 
     public void placeWorkers(Location loc1, Location loc2) {
-        if (!checkValidLocation(loc1) || !checkValidLocation(loc2)) {
+        if (!loc1.checkValidLocation() || !loc2.checkValidLocation()) {
             System.out.println("Please input valid location (rows 0-4, cols 0-4)");
             return;
         }
@@ -68,7 +60,7 @@ public class Game {
     }
 
     public void move(Worker.id id, Location loc) {
-        if (!checkValidLocation(loc)) {
+        if (!loc.checkValidLocation()) {
             System.out.println("Please input valid location (rows 0-4, cols 0-4)");
         }
         Player currPlayer = getCurrentPlayer();
@@ -85,11 +77,10 @@ public class Game {
     }
 
     public void build(Location loc) {
-        if (!checkValidLocation(loc)) {
+        if (!loc.checkValidLocation()) {
             System.out.println("Please input valid location (rows 0-4, cols 0-4)");
         }
-        boolean success = grid.tryBuild(loc);
-        if (!success) {
+        if (!grid.tryBuild(loc)) {
             System.out.println("Grid is occupied at that location.");
         } else if (checkWin) {          // check if current player has won
             this.hasGameEnded = true;

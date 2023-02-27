@@ -16,11 +16,17 @@ public class Grid {
         }
         this.occupiedFields = new ArrayList<Location>();
     }
-
+    
     public Tower getTower(Location loc) {
         int row = loc.row;
         int col = loc.col;
         return gridState[row][col];
+    }
+
+    public boolean highest(Location loc) {
+        Tower tower = getTower(loc);
+        if (tower.getLevel() == 3) return true;
+        else return false;
     }
 
     public boolean isOccupied(Location loc) {

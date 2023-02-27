@@ -10,6 +10,12 @@ public class Location {
         this.col = col;
     }
 
+    // checking valid locations for a 5x5 grid
+    public boolean checkValidLocation() {
+        if (this.row < 0 || this.row > 4 || this.col < 0 || this.col > 4) return false;
+        else return true;
+    }
+
     public boolean equals(Location loc) {
         if (loc.row == this.row && loc.col == this.col) return true;
         else return false;
