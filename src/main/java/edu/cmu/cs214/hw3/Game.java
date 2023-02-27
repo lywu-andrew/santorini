@@ -83,21 +83,22 @@ public class Game {
         nextPlayer();
     }
 
-    public void move(Integer id, Location loc) {
+    public void move(Integer wid, Location loc) {
         if (!loc.checkValidLocation()) {
             System.out.println("Please input valid location (rows 0-4, cols 0-4)");
+            return;
         }
         Player currPlayer = getCurrentPlayer();
-        if (!currPlayer.isAdjLocation(id, loc)) {
+        if (!currPlayer.isAdjLocation(wid, loc)) {
             System.out.println("Please input adjacent location");
             return;
         }
-        Location prevPos = currPlayer.getWorkerPosition(id);
+        Location prevPos = currPlayer.getWorkerPosition(wid);
         if (!grid.tryMove(prevPos, loc)) {
             System.out.println("Please input unoccupied location");
             return;
         }
-        currPlayer.place(id, loc);
+        currPlayer.place(wid, loc);
     }
 
     public void build(Location loc) {

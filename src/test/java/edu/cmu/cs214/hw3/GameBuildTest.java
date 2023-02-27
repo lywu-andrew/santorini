@@ -10,7 +10,7 @@ import edu.cmu.cs214.hw3.state.Location;
 
 import static org.junit.Assert.*;
 
-public class GameTest {
+public class GameBuildTest {
 
     private Game game;
     private Worker w1;
@@ -29,5 +29,10 @@ public class GameTest {
         w4 = new Worker(2);
         p2 = new Player(2, w3, w4);
         game = new Game(p1, p2);
+    }
+
+    @Test
+    public void testBuild() {
+        setUp();
     }
 }
