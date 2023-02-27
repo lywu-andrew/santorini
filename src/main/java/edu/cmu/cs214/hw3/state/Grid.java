@@ -1,5 +1,7 @@
 package main.java.edu.cmu.cs214.hw3.state;
 
+import java.util.List;
+
 public class Grid {
     
     public Tower[][] gridState;
@@ -28,16 +30,29 @@ public class Grid {
         return false;
     }
 
+    public boolean tryOccupy(Location loc) {
+        if (isOccupied(loc)) return false;
+        else {
+            occupiedFields.add(loc);
+            return true;
+        }
+    }
+
+    public boolean tryMove(Location prev, Location next) {
+        if (!tryOccupy(next)) return false;
+        else {
+            occupiedFields.remove(prev);
+            return true;
+        }
+    }
+
     public boolean tryBuild(Location loc) {
         if (isOccupied(loc)) return false;
         else {
             Tower tower = getTower(loc);
             tower.build();
             if (tower.isDomed()) this.occupiedFields.add(tower.loc);
+            return true;
         }
     }
-
-    // is it an issue to use location and tower objects? i think it's justified since they're closely linked
-    // it's more bc occupiedFields is implemented w locations so it's useful
-
 }

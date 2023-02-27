@@ -1,6 +1,6 @@
 package main.java.edu.cmu.cs214.hw3.state;
 
-public class Tower{
+public class Tower {
     
     private int level;
     private boolean hasDome;

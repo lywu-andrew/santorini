@@ -10,8 +10,15 @@ public class Location {
         this.col = col;
     }
 
-    public boolean equals(Location l) {
-        if (l.row == this.row && l.col == this.col) return true;
+    public boolean equals(Location loc) {
+        if (loc.row == this.row && loc.col == this.col) return true;
+        else return false;
+    }
+
+    public boolean adjacent(Location loc) {
+        int Lrow = loc.row;
+        int Lcol = loc.col;
+        if (Math.abs(Lrow - this.row) < 2 && Math.abs(Lcol - this.col) < 2) return true;
         else return false;
     }
 
