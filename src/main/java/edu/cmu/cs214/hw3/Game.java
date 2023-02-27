@@ -12,8 +12,8 @@ public class Game {
 
     private boolean hasGameEnded;
     private Integer playerTurn;
-    public Grid grid;
-    public Dictionary<Integer, Player> players;
+    private Grid grid;
+    private Dictionary<Integer, Player> players;
 
     public Game() {
         Player p1 = new Player(1);
@@ -24,6 +24,18 @@ public class Game {
         this.grid = new Grid();
         this.hasGameEnded = false;
         this.playerTurn = 1;
+    }
+
+    public Integer getPlayerTurn() {
+        return this.playerTurn;
+    }
+
+    public Grid getGrid() {
+        return this.grid;
+    }
+
+    public Dictionary<Integer, Player> getPlayers() {
+        return this.players;
     }
 
     private void nextPlayer() {

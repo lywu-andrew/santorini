@@ -7,9 +7,9 @@ import main.java.edu.cmu.cs214.hw3.state.Location;
 
 public class Player {
     
-    public int id;
-    public Dictionary<Integer, Worker> workers;
-    public Location[] workerPositions;
+    private Integer id;
+    private Dictionary<Integer, Worker> workers;
+    private Location[] workerPositions;
 
     public Player(int id) {
         this.id = id;
@@ -21,6 +21,18 @@ public class Player {
         this.workerPositions = new Location[this.workers.size()];
     }
 
+    public Integer getID() {
+        return this.id;
+    }
+
+    public Dictionary<Integer, Worker> getWorkers() {
+        return this.workers;
+    }
+
+    public Location[] getWorkerPositions() {
+        return workerPositions;
+    }
+
     private Worker getWorker(Integer wid) {
         return this.workers.get(wid);
     }
@@ -28,10 +40,6 @@ public class Player {
     public Location getWorkerPosition(Integer wid) {
         Worker worker = getWorker(wid);
         return worker.getPosition();
-    }
-
-    public Location[] getWorkerPositions() {
-        return workerPositions;
     }
 
     // is this an adj location to the worker

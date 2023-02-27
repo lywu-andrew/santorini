@@ -4,12 +4,16 @@ import main.java.edu.cmu.cs214.hw3.state.Location;
 
 public class Worker {
     
-    public Integer id;
+    private Integer id;
     private Location position;
 
     public Worker(Integer id) {
         this.id = id;
         this.position = new Location(-1, -1); // default: hasn't been placed
+    }
+
+    public Integer getID() {
+        return this.id;
     }
 
     public Location getPosition() {

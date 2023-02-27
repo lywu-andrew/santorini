@@ -2,17 +2,25 @@ package main.java.edu.cmu.cs214.hw3.state;
 
 public class Location {
     
-    public int row;
-    public int col;
+    private int row;
+    private int col;
 
     public Location(int row, int col) {
         this.row = row;
         this.col = col;
     }
 
+    public int getRow() {
+        return this.row;
+    }
+
+    public int getCol() {
+        return this.col;
+    }
+
     // checking valid locations for a 5x5 grid
     public boolean checkValidLocation() {
-        if (this.row < 0 || this.row > 4 || this.col < 0 || this.col > 4) return false;
+        if (this.row < 0 || this.row >= Grid.gridSize || this.col < 0 || this.col >= Grid.gridSize) return false;
         else return true;
     }
 
@@ -22,9 +30,9 @@ public class Location {
     }
 
     public boolean adjacent(Location loc) {
-        int Lrow = loc.row;
-        int Lcol = loc.col;
-        if (Math.abs(Lrow - this.row) < 2 && Math.abs(Lcol - this.col) < 2) return true;
+        int lrow = loc.row;
+        int lcol = loc.col;
+        if (Math.abs(lrow - this.row) < 2 && Math.abs(lcol - this.col) < 2) return true;
         else return false;
     }
 
