@@ -18,7 +18,7 @@ public class Player {
         this.workers = new Hashtable<>();
         this.workers.put(w1.getID(), w1);
         this.workers.put(w2.getID(), w2);
-        this.workerPositions = new Hashtable<>(); //new Location[this.workers.size()];
+        this.workerPositions = new Hashtable<>();
     }
 
     public Integer getID() {

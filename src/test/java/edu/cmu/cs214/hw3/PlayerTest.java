@@ -22,28 +22,28 @@ public class PlayerTest {
     public void setUp() {
         this.w1 = new Worker(1);
         Location loc1 = new Location(0, 0);
-        this.w1.move(loc1);
         this.w2 = new Worker(2);
         Location loc2 = new Location(1, 1);
-        this.w2.move(loc2);
         this.w3 = new Worker(1);
         Location loc3 = new Location(2, 2);
-        this.w3.move(loc3);
         this.w4 = new Worker(2);
         Location loc4 = new Location(3, 3);
-        this.w4.move(loc4);
         this.p1 = new Player(1, w1, w2);
+        this.p1.place(w1.getID(), loc1);
+        this.p1.place(w2.getID(), loc2);
         this.p2 = new Player(2, w3, w4);
+        this.p2.place(w3.getID(), loc3);
+        this.p2.place(w4.getID(), loc4);
     }
 
     @Test
     public void testIsAdjLocation() {
         setUp();
-        Location pos2 = w2.getPosition();
+        Location pos2 = this.p1.getWorkerPosition(w2.getID());
         int row = pos2.getRow();
         int col = pos2.getCol();
-        for (int i = -1; i < 1; i++) {
-            for (int j = -1; j < 1; j++) {
+        for (int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
                 Location loc = new Location(row + i, col + j);
                 assertTrue(p1.isAdjLocation(w2.getID(), loc));
             }

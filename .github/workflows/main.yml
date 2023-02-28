@@ -44,7 +44,15 @@ jobs:
             pom.xml
             **/*.java
 
-      # Runs type checker for Java files
-      - name: Run on Java files
+      # Runs type checker
+      - name: Run type checker
         run: |
           timeout 2m mvn -f pom.xml site
+      
+      # Builds the program
+      - name: Build
+        run: mvn --batch-mode -DskipTests package
+
+      # Runs test suite
+      - name: Test
+        run: mvn --batch-mode -Dmaven.test.failure.ignore=true test
