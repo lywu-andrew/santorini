@@ -9,18 +9,28 @@ import edu.cmu.cs214.hw3.state.Grid;
 import edu.cmu.cs214.hw3.state.Location;
 
 /**
+ * Controller class for Santorini game. 
  * This implementation is assuming the players are switching off when interacting with the system.
- *
+ * When the user invokes the game methods, if there is an error, a message will be output to the console,
+ * and the user will be allowed to retry that method (no action will happen as a result of a user error).
  */
 public class Game {
 
     private boolean hasGameEnded;
     private Integer playerTurn;
     private Grid grid;
+    // Using Dictionaries for extensibility
     private Dictionary<Integer, Player> players;
     private Integer p1ID;
     private Integer p2ID;
 
+    /**
+     * Creates a new {@link Game} instance, which contains the players.
+     * Also stores attribute of if game has ended and the current player's turn.
+     *
+     * @param p1 The first {@link Player}
+     * @param p2 The second {@link Player}
+     */
     public Game(Player p1, Player p2) {
         this.p1ID = p1.getID();
         this.p2ID = p2.getID();
@@ -65,11 +75,22 @@ public class Game {
         Player currPlayer = getCurrentPlayer();
         ArrayList<Location> plocs = currPlayer.getAllPositions();
         for (Location loc: plocs) {
+            // checks if any of the player's workers are on a level 3 tower
             if (grid.highest(loc)) this.hasGameEnded = true;
         }
         return this.hasGameEnded;
     }
 
+    /**
+     * Place workers in the beginning 2 locations and switches to the next player's turn.
+     *
+     * @param loc1 The {@link Location} to put the first worker
+     * @param loc2 The {@link Location} to put the second worker
+     * @error If game has ended, there will be no action.
+     * @error If the locations are not valid, there will be no action.
+     * @error If the locations are equal, there will be no action.
+     * @error If the locations are previously occupied, there will be no action.
+     */
     public void placeWorkers(Location loc1, Location loc2) {
         if (this.hasGameEnded) {
             System.out.printf("Player %d has won!\n", playerTurn);
@@ -92,6 +113,16 @@ public class Game {
         nextPlayer();
     }
 
+    /**
+     * Moves player's worker to location.
+     *
+     * @param wid The {@link Worker}'s id
+     * @param loc The destination {@link Location}
+     * @error If game has ended, there will be no action.
+     * @error If the locations are not valid, there will be no action.
+     * @error If the location is not adjacent to the worker, there will be no action.
+     * @error If the location is previously occupied or unclimbable, there will be no action.
+     */
     public void move(Integer wid, Location loc) {
         if (this.hasGameEnded) {
             System.out.printf("Player %d has won!\n", playerTurn);
@@ -114,6 +145,15 @@ public class Game {
         currPlayer.place(wid, loc);
     }
 
+    /**
+     * Builds at the location. Then checks if the current player has won, and if not, switches to the next player's turn.
+     *
+     * @param loc The target {@link Location}
+     * @error If game has ended, there will be no action.
+     * @error If the locations are not valid, there will be no action.
+     * @error If the location is not adjacent to any of the player's workers, there will be no action.
+     * @error If the location is previously occupied, there will be no action.
+     */
     public void build(Location loc) {
         if (this.hasGameEnded) {
             System.out.printf("Player %d has won!\n", playerTurn);
