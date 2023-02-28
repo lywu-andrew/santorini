@@ -71,6 +71,10 @@ public class Game {
     }
 
     public void placeWorkers(Location loc1, Location loc2) {
+        if (this.hasGameEnded) {
+            System.out.printf("Player %d has won!\n", playerTurn);
+            return;
+        }
         if (!loc1.checkValidLocation() || !loc2.checkValidLocation()) {
             System.out.println("Please input valid location (rows 0-4, cols 0-4)");
             return;
@@ -89,6 +93,10 @@ public class Game {
     }
 
     public void move(Integer wid, Location loc) {
+        if (this.hasGameEnded) {
+            System.out.printf("Player %d has won!\n", playerTurn);
+            return;
+        }
         if (!loc.checkValidLocation()) {
             System.out.println("Please input valid location (rows 0-4, cols 0-4)");
             return;
@@ -107,6 +115,10 @@ public class Game {
     }
 
     public void build(Location loc) {
+        if (this.hasGameEnded) {
+            System.out.printf("Player %d has won!\n", playerTurn);
+            return;
+        }
         if (!loc.checkValidLocation()) {
             System.out.println("Please input valid location (rows 0-4, cols 0-4)");
             return;
