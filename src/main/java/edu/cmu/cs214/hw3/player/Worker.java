@@ -31,7 +31,7 @@ public class Worker {
     /**
      * Sets the worker's position to location.
      *
-     * @param {@link Location} The destination location.
+     * @param newpos {@link Location} The destination location.
      */
     public void move(Location newpos) {
         this.position = newpos;
