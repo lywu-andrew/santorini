@@ -76,7 +76,10 @@ public class Game {
         ArrayList<Location> plocs = currPlayer.getAllPositions();
         for (Location loc: plocs) {
             // checks if any of the player's workers are on a level 3 tower
-            if (grid.highest(loc)) this.hasGameEnded = true;
+            if (grid.highest(loc))  {
+                this.hasGameEnded = true;
+                System.out.printf("Player %d has won!\n", playerTurn);
+            }
         }
         return this.hasGameEnded;
     }
@@ -171,10 +174,8 @@ public class Game {
         if (!grid.tryBuild(loc)) {
             System.out.println("Grid is occupied at that location or the tower is domed.");
             return;
-        } else if (checkWin()) {          // check if current player has won
-            this.hasGameEnded = true;
-        } else {                        // if player has not won on this turn, switch players
-            nextPlayer();
+        } else if (!checkWin()) {          // check if current player has won
+            nextPlayer();                  // if player has not won on this turn, switch players
         }
     }
 }

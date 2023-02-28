@@ -74,13 +74,6 @@ public class Grid {
         return false;
     }
 
-    /**
-     * Tries to occupy the location in the grid.
-     *
-     * @param loc The {@link Location} in the grid
-     * @return {@code true} if success:
-     *                         location was not previously occupied
-     */
     private boolean tryOccupy(Location loc) {
         if (isOccupied(loc)) return false;
         else {
