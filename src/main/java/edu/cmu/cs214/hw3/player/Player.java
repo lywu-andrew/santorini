@@ -1,5 +1,7 @@
 package edu.cmu.cs214.hw3.player;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -46,6 +48,14 @@ public class Player {
         Location pos = worker.getPosition();
         if (loc.adjacent(pos)) return true;
         else return false;
+    }
+
+    public boolean isAdj(Location loc) {
+        ArrayList<Integer> keys = Collections.list(this.workers.keys());
+        for (Integer key: keys) {
+            if (isAdjLocation(key, loc)) return true;
+        }
+        return false;
     }
 
     public void place(Integer wid, Location loc) {

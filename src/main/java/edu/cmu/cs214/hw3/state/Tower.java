@@ -26,6 +26,11 @@ public class Tower {
         return this.loc;
     }
 
+    public boolean isClimbable (Tower tower) {
+        int level2 = tower.getLevel();
+        return Math.abs(level2 - this.level) < 2;
+    }
+
     public void build() {
         // no check for dome; already checked in Grid isOccupied
         if (this.level == HIGHEST_LEVEL) this.hasDome = true;

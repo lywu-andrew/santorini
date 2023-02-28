@@ -4,6 +4,7 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 
 import edu.cmu.cs214.hw3.player.Player;
+import edu.cmu.cs214.hw3.player.Worker;
 import edu.cmu.cs214.hw3.state.Grid;
 import edu.cmu.cs214.hw3.state.Location;
 
@@ -46,6 +47,10 @@ public class Game {
     public Dictionary<Integer, Player> getPlayers() {
         return this.players;
     }
+    
+    public boolean getHasGameEnded() {
+        return this.hasGameEnded;
+    }
 
     private void nextPlayer() {
         if (this.playerTurn == p1ID) this.playerTurn = p2ID;
@@ -56,7 +61,7 @@ public class Game {
         return this.players.get(this.playerTurn);
     }
 
-    public boolean checkWin() {
+    private boolean checkWin() {
         Player currPlayer = getCurrentPlayer();
         Location[] plocs = currPlayer.getWorkerPositions();
         for (Location loc: plocs) {
@@ -95,7 +100,7 @@ public class Game {
         }
         Location prevPos = currPlayer.getWorkerPosition(wid);
         if (!grid.tryMove(prevPos, loc)) {
-            System.out.println("Please input unoccupied location");
+            System.out.println("Please input unoccupied climbable location");
             return;
         }
         currPlayer.place(wid, loc);
@@ -104,9 +109,16 @@ public class Game {
     public void build(Location loc) {
         if (!loc.checkValidLocation()) {
             System.out.println("Please input valid location (rows 0-4, cols 0-4)");
+            return;
+        }
+        Player currPlayer = getCurrentPlayer();
+        if (!currPlayer.isAdj(loc)) {
+            System.out.println("Please input adjacent location to a worker");
+            return;
         }
         if (!grid.tryBuild(loc)) {
-            System.out.println("Grid is occupied at that location.");
+            System.out.println("Grid is occupied at that location or the tower is domed.");
+            return;
         } else if (checkWin()) {          // check if current player has won
             this.hasGameEnded = true;
         } else {                        // if player has not won on this turn, switch players

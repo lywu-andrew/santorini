@@ -67,8 +67,13 @@ public class Grid {
     }
 
     public boolean tryMove(Location prev, Location next) {
+        Tower prevTower = getTower(prev);
+        Tower nextTower = getTower(next);
         if (!tryOccupy(next)) return false;
-        else {
+        else if (!prevTower.isClimbable(nextTower)) {
+            occupiedFields.remove(next);
+            return false;
+        } else {
             occupiedFields.remove(prev);
             return true;
         }
@@ -79,6 +84,7 @@ public class Grid {
         else {
             Tower tower = getTower(loc);
             tower.build();
+            // domed towers are checked for in isOccupied
             if (tower.isDomed()) this.occupiedFields.add(tower.getLocation());
             return true;
         }
