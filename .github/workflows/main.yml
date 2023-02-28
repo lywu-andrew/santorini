@@ -56,3 +56,5 @@ jobs:
       # Runs test suite
       - name: Test
         run: mvn --batch-mode -Dmaven.test.failure.ignore=true test
+        with: |
+          fail-on-error: true

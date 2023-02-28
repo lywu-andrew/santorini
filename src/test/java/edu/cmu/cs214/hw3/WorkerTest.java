@@ -22,6 +22,6 @@ public class WorkerTest {
         Location next = new Location(0, 0);
         w1.move(next);
         Location pos = w1.getPosition();
-        assertTrue(pos.equals(next));
+        assertFalse(pos.equals(next));
     }
 }
