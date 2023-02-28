@@ -8,8 +8,8 @@ public class Tower {
     private boolean hasDome;
     private Location loc;
 
-    public Tower(int row, int col) {
-        this.loc = new Location(row, col);
+    public Tower(Location locin) {
+        this.loc = locin;
         this.level = 0;
         this.hasDome = false;
     }

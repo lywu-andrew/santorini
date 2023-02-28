@@ -11,14 +11,14 @@ public class Player {
     
     private Integer id;
     private Dictionary<Integer, Worker> workers;
-    private Location[] workerPositions;
+    private Dictionary<Integer, Location> workerPositions;
 
     public Player(int id, Worker w1, Worker w2) {
         this.id = id;
         this.workers = new Hashtable<>();
         this.workers.put(w1.getID(), w1);
         this.workers.put(w2.getID(), w2);
-        this.workerPositions = new Location[this.workers.size()];
+        this.workerPositions = new Hashtable<>(); //new Location[this.workers.size()];
     }
 
     public Integer getID() {
@@ -29,8 +29,12 @@ public class Player {
         return this.workers;
     }
 
-    public Location[] getWorkerPositions() {
-        return workerPositions;
+    public Dictionary<Integer, Location> getWorkerPositions() {
+        return this.workerPositions;
+    }
+    
+    public ArrayList<Location> getAllPositions() {
+        return Collections.list(this.workerPositions.elements());
     }
 
     private Worker getWorker(Integer wid) {
@@ -38,14 +42,12 @@ public class Player {
     }
 
     public Location getWorkerPosition(Integer wid) {
-        Worker worker = getWorker(wid);
-        return worker.getPosition();
+        return this.workerPositions.get(wid);
     }
 
     // is this an adj location to the worker
     public boolean isAdjLocation(Integer wid, Location loc) {
-        Worker worker = getWorker(wid);
-        Location pos = worker.getPosition();
+        Location pos = getWorkerPosition(wid);
         if (loc.adjacent(pos)) return true;
         else return false;
     }
@@ -61,7 +63,7 @@ public class Player {
     public void place(Integer wid, Location loc) {
         Worker worker = getWorker(wid);
         worker.move(loc);
-        this.workerPositions[wid - 1] = loc; // player id's start at 1, but arrays are 0 indexed
+        this.workerPositions.put(wid, loc);
     }
 
 }

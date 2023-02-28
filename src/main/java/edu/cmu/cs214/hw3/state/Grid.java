@@ -14,7 +14,8 @@ public class Grid {
         this.gridState = new Tower[GRID_SIZE][GRID_SIZE];
         for (int i = 0; i < GRID_SIZE; i++) {
             for (int j = 0; j < GRID_SIZE; j++) {
-                this.gridState[i][j] = new Tower(i, j);
+                Location newLoc = new Location(i, j);
+                this.gridState[i][j] = new Tower(newLoc);
             }
         }
         this.occupiedFields = new ArrayList<Location>();

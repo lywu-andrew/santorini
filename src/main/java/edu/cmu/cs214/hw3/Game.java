@@ -1,10 +1,10 @@
 package edu.cmu.cs214.hw3;
 
+import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
 import edu.cmu.cs214.hw3.player.Player;
-import edu.cmu.cs214.hw3.player.Worker;
 import edu.cmu.cs214.hw3.state.Grid;
 import edu.cmu.cs214.hw3.state.Location;
 
@@ -63,7 +63,7 @@ public class Game {
 
     private boolean checkWin() {
         Player currPlayer = getCurrentPlayer();
-        Location[] plocs = currPlayer.getWorkerPositions();
+        ArrayList<Location> plocs = currPlayer.getAllPositions();
         for (Location loc: plocs) {
             if (grid.highest(loc)) this.hasGameEnded = true;
         }
