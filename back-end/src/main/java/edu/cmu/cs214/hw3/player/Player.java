@@ -1,9 +1,8 @@
 package edu.cmu.cs214.hw3.player;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Dictionary;
-import java.util.Hashtable;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import edu.cmu.cs214.hw3.state.Location;
 
@@ -13,9 +12,9 @@ import edu.cmu.cs214.hw3.state.Location;
 public class Player {
     
     private Integer id;
-    // Using Dictionaries for extensibility
-    private Dictionary<Integer, Worker> workers;
-    private Dictionary<Integer, Location> workerPositions;
+    // Using Maps for extensibility
+    private Map<Integer, Worker> workers;
+    private Map<Integer, Location> workerPositions;
 
     /**
      * Creates a new {@link Player} instance.
@@ -27,34 +26,42 @@ public class Player {
      */
     public Player(int id, Worker w1, Worker w2) {
         this.id = id;
-        this.workers = new Hashtable<>();
+        this.workers = new HashMap<Integer, Worker>();
         this.workers.put(w1.getID(), w1);
         this.workers.put(w2.getID(), w2);
-        this.workerPositions = new Hashtable<>();
+        this.workerPositions = new HashMap<Integer, Location>();
     }
 
     public Integer getID() {
         return this.id;
     }
 
-    public Dictionary<Integer, Worker> getWorkers() {
+    public Map<Integer, Worker> getWorkers() {
         return this.workers;
     }
 
-    public Dictionary<Integer, Location> getWorkerPositions() {
+    public Map<Integer, Location> getWorkerPositions() {
         return this.workerPositions;
     }
     
-    public ArrayList<Location> getAllPositions() {
-        return Collections.list(this.workerPositions.elements());
+    public Collection<Location> getAllPositions() {
+        return this.workerPositions.values();
     }
 
-    private Worker getWorker(Integer wid) {
+    public Worker getWorker(Integer wid) {
         return this.workers.get(wid);
     }
 
     public Location getWorkerPosition(Integer wid) {
         return this.workerPositions.get(wid);
+    }
+
+    public Integer getWorkerFromLocation(Location loc) {
+        for (Integer wid: this.workers.keySet()) {
+            if (getWorker(wid).getPosition().equals(loc))
+                return wid;
+        }
+        return -1;
     }
 
     /**
@@ -77,8 +84,7 @@ public class Player {
      * @return {@code true} if any of the player's workers is adjacent to the location.
      */
     public boolean isAdj(Location loc) {
-        ArrayList<Integer> keys = Collections.list(this.workers.keys());
-        for (Integer key: keys) {
+        for (Integer key: this.workers.keySet()) {
             if (isAdjLocation(key, loc)) return true;
         }
         return false;

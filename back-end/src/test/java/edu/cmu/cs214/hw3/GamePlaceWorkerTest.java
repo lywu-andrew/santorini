@@ -7,7 +7,7 @@ import edu.cmu.cs214.hw3.player.Player;
 import edu.cmu.cs214.hw3.state.Grid;
 import edu.cmu.cs214.hw3.state.Location;
 
-import java.util.Dictionary;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -30,7 +30,7 @@ public class GamePlaceWorkerTest {
         assertTrue(grid.isOccupied(loc1));
         assertTrue(grid.isOccupied(loc2));
         Player p1 = game.getPlayer(1);
-        Dictionary<Integer, Location> p1wpos = p1.getWorkerPositions();
+        Map<Integer, Location> p1wpos = p1.getWorkerPositions();
         Location p1w1pos = p1wpos.get(1);
         Location p1w2pos = p1wpos.get(2);
         assertTrue(p1w1pos.equals(loc1));
@@ -41,7 +41,7 @@ public class GamePlaceWorkerTest {
         assertTrue(grid.isOccupied(loc3));
         assertTrue(grid.isOccupied(loc4));
         Player p2 = game.getPlayer(2);
-        Dictionary<Integer, Location> p2wpos = p2.getWorkerPositions();
+        Map<Integer, Location> p2wpos = p2.getWorkerPositions();
         Location p2w3pos = p2wpos.get(1);
         Location p2w4pos = p2wpos.get(2);
         assertTrue(p2w3pos.equals(loc3));
@@ -86,7 +86,7 @@ public class GamePlaceWorkerTest {
         assertTrue(grid.isOccupied(loc1));
         assertTrue(grid.isOccupied(loc2));
         Player p1 = game.getPlayer(1);
-        Dictionary<Integer, Location> p1wpos = p1.getWorkerPositions();
+        Map<Integer, Location> p1wpos = p1.getWorkerPositions();
         Location p1w1pos = p1wpos.get(1);
         Location p1w2pos = p1wpos.get(2);
         assertTrue(p1w1pos.equals(loc1));

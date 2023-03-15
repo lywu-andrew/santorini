@@ -30,11 +30,11 @@ public class GameBuildTest {
         game.placeWorkers(loc3, loc4);
         Location newLoc1 = new Location(0, 1);
         Location newLoc2 = new Location(1, 2);
-        game.move(1, newLoc1);
+        game.move(loc1, newLoc1);
         game.build(loc1);
         Tower tower1 = grid.getTower(loc1);
         assertTrue(tower1.getLevel() == 1);
-        game.move(1, newLoc2);
+        game.move(loc3, newLoc2);
         game.build(loc3);
         Tower tower2 = grid.getTower(loc3);
         assertTrue(tower2.getLevel() == 1);
@@ -57,30 +57,30 @@ public class GameBuildTest {
         Tower tower1 = grid.getTower(loc1);
         Tower tower3 = grid.getTower(loc3);
 
-        game.move(1, newLoc1);
+        game.move(loc1, newLoc1);
         game.build(loc1); // (0, 0) level 1
-        game.move(1, newLoc2);
+        game.move(loc3, newLoc2);
         game.build(loc3); // (4, 4) level 1
         assertTrue(tower1.getLevel() == 1);
         assertTrue(tower3.getLevel() == 1);
 
-        game.move(1, newLoc3);
+        game.move(newLoc1, newLoc3);
         game.build(loc1); // (0, 0) level 2
-        game.move(1, newLoc4);
+        game.move(newLoc2, newLoc4);
         game.build(loc3); // (4, 4) level 2
         assertTrue(tower1.getLevel() == 2);
         assertTrue(tower3.getLevel() == 2);
 
-        game.move(1, newLoc1);
+        game.move(newLoc3, newLoc1);
         game.build(loc1); // (0, 0) level 3
-        game.move(1, newLoc2);
+        game.move(newLoc4, newLoc2);
         game.build(loc3); // (4, 4) level 3
         assertTrue(tower1.getLevel() == 3);
         assertTrue(tower3.getLevel() == 3);
 
-        game.move(1, newLoc3);
+        game.move(newLoc1, newLoc3);
         game.build(loc1); // (0, 0) has dome
-        game.move(1, newLoc4);
+        game.move(newLoc2, newLoc4);
         game.build(loc3); // (4, 4) has dome
         assertTrue(tower1.isDomed());
         assertTrue(tower3.isDomed());
@@ -90,7 +90,7 @@ public class GameBuildTest {
         assertTrue(grid.isOccupied(loc3));
 
         // tests building on domed tower
-        game.move(1, newLoc1);
+        game.move(newLoc3, newLoc1);
         game.build(loc1);
         assertTrue(tower1.getLevel() == 3);
         assertTrue(tower3.getLevel() == 3);
@@ -106,7 +106,7 @@ public class GameBuildTest {
         Location loc3 = new Location(4, 4);
         Location loc4 = new Location(3, 3);
         game.placeWorkers(loc3, loc4);
-        game.move(1, new Location(0, 1));
+        game.move(loc1, new Location(0, 1));
         game.build(new Location(-1, -1));
         for (Integer row = 0; row < 5; row++) {
             for (Integer col = 0; col < 5; col++) {
@@ -126,7 +126,7 @@ public class GameBuildTest {
         Location loc3 = new Location(4, 4);
         Location loc4 = new Location(3, 3);
         game.placeWorkers(loc3, loc4);
-        game.move(1, new Location(0, 1));
+        game.move(loc1, new Location(0, 1));
         Location towerLoc = new Location(3, 4);
         game.build(towerLoc);
         Tower t = grid.getTower(towerLoc);
@@ -143,7 +143,7 @@ public class GameBuildTest {
         Location loc3 = new Location(4, 4);
         Location loc4 = new Location(3, 3);
         game.placeWorkers(loc3, loc4);
-        game.move(2, new Location(2, 3));
+        game.move(loc2, new Location(2, 3));
         game.build(loc3);
         Tower t = grid.getTower(loc3);
         assertTrue(t.getLevel() == 0);

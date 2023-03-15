@@ -49,26 +49,54 @@ class App extends React.Component<Props, GameState> {
   }
 
   /**
-   * play will generate an anonymous function that the component
+   * move will generate an anonymous function that the component
    * can bind with.
    * @param x 
    * @param y 
    * @returns 
    */
-  play(x: number, y: number): React.MouseEventHandler {
+  placeworkers(x1: number, y1: number, x2: number, y2: number): React.MouseEventHandler {
     return async (e) => {
       // prevent the default behavior on clicking a link; otherwise, it will jump to a new page.
       e.preventDefault();
-      const response = await fetch(`/play?x=${x}&y=${y}`)
+      const response = await fetch(`/placeworkers?x1=${x1}&y1=${y1}&x2=${x2}&y2=${y2}`)
       const json = await response.json();
       this.setState(json);
     }
   }
 
-  undo = async () => {
-    const response = await fetch('/undo');
-    const json = await response.json();
-    this.setState(json);
+  /**
+   * move will generate an anonymous function that the component
+   * can bind with.
+   * @param x 
+   * @param y 
+   * @returns 
+   */
+  move(xcurr: number, ycurr: number, xnext: number, ynext: number): React.MouseEventHandler {
+    return async (e) => {
+      // prevent the default behavior on clicking a link; otherwise, it will jump to a new page.
+      e.preventDefault();
+      const response = await fetch(`/move?x1=${xcurr}&y1=${ycurr}&x2=${xnext}&y2=${ynext}`)
+      const json = await response.json();
+      this.setState(json);
+    }
+  }
+
+  /**
+   * build will generate an anonymous function that the component
+   * can bind with.
+   * @param x 
+   * @param y 
+   * @returns 
+   */
+  build(x: number, y: number): React.MouseEventHandler {
+    return async (e) => {
+      // prevent the default behavior on clicking a link; otherwise, it will jump to a new page.
+      e.preventDefault();
+      const response = await fetch(`/build?x=${x}&y=${y}`)
+      const json = await response.json();
+      this.setState(json);
+    }
   }
 
   createCell(cell: Cell, index: number): React.ReactNode {
@@ -96,7 +124,7 @@ class App extends React.Component<Props, GameState> {
     if (this.state.winner !== null) {
       return `Player ${this.state.winner} wins!`
     } else {
-      return `It is Player ${this.state.turn}'s turn.`
+      return `It is Player ${this.state.turn}'s turn.` // still need to display what is nextAction
     }
   }
 
@@ -135,8 +163,6 @@ class App extends React.Component<Props, GameState> {
         </div>
         <div id="bottombar">
           <button onClick={/* get the function, not call the function */this.newGame}>New Game</button>
-          {/* Exercise: implement Undo function */}
-          <button onClick={this.undo}>Undo</button>
         </div>
       </div>
     );
