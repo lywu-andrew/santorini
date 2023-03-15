@@ -1,10 +1,9 @@
 package edu.cmu.cs214.hw3;
 
 import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.Hashtable;
 
 import edu.cmu.cs214.hw3.player.Player;
+import edu.cmu.cs214.hw3.player.Worker;
 import edu.cmu.cs214.hw3.state.Grid;
 import edu.cmu.cs214.hw3.state.Location;
 
@@ -19,10 +18,8 @@ public class Game {
     private boolean hasGameEnded;
     private Integer playerTurn;
     private Grid grid;
-    // Using Dictionaries for extensibility
-    private Dictionary<Integer, Player> players;
-    private Integer p1ID;
-    private Integer p2ID;
+    private Player p1;
+    private Player p2;
 
     /**
      * Creates a new {@link Game} instance, which contains the players.
@@ -31,12 +28,9 @@ public class Game {
      * @param p1 The first {@link Player}
      * @param p2 The second {@link Player}
      */
-    public Game(Player p1, Player p2) {
-        this.p1ID = p1.getID();
-        this.p2ID = p2.getID();
-        this.players = new Hashtable<>();
-        this.players.put(p1ID, p1);
-        this.players.put(p2ID, p2);
+    public Game() {
+        this.p1 = new Player(1, new Worker(1), new Worker(2));
+        this.p2 = new Player(2, new Worker(1), new Worker(2));
         this.grid = new Grid();
         this.hasGameEnded = false;
         this.playerTurn = p1.getID();
@@ -51,24 +45,22 @@ public class Game {
     }
 
     public Player getPlayer(Integer id) {
-        return this.players.get(id);
+        if (id == 1) return p1;
+        return p2;
     }
 
-    public Dictionary<Integer, Player> getPlayers() {
-        return this.players;
-    }
-    
     public boolean getHasGameEnded() {
         return this.hasGameEnded;
     }
 
     private void nextPlayer() {
-        if (this.playerTurn == p1ID) this.playerTurn = p2ID;
-        else this.playerTurn = p1ID;
+        if (this.playerTurn == p1.getID()) this.playerTurn = p2.getID();
+        else this.playerTurn = p1.getID();
     }
 
     private Player getCurrentPlayer() {
-        return this.players.get(this.playerTurn);
+        if (this.playerTurn == 1) return p1;
+        return p2;
     }
 
     private boolean checkWin() {
