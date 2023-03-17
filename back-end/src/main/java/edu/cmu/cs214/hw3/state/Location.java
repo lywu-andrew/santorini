@@ -1,5 +1,7 @@
 package edu.cmu.cs214.hw3.state;
 
+import java.util.Objects;
+
 /**
  * Class for location in the grid.
  */
@@ -7,7 +9,6 @@ public class Location {
     
     private int row;
     private int col;
-    private final static int HASHNUM = 397;
 
     /**
      * Creates a new {@link Location} instance.
@@ -57,10 +58,7 @@ public class Location {
      * @return hashcode for Location object.
      */
     public int hashCode() {
-        int hash = 0;
-        hash = (hash * HASHNUM) ^ this.row;
-        hash = (hash * HASHNUM) ^ this.col;
-        return hash;
+        return Objects.hash(this.row, this.col);
     }
 
     /**
