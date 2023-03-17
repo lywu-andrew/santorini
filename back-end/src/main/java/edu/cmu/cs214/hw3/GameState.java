@@ -12,28 +12,28 @@ public class GameState {
     private final Cell[] cells;
     private final Integer winner;
     private final Integer playerTurn;
-    private final Integer nextAction;
+    private final String instruction;
 
-    private GameState(Cell[] cells, Integer winnerID, int turn, int nextAction) {
+    private GameState(Cell[] cells, Integer winnerID, int turn, String instruction) {
         this.cells = cells;
         this.winner = winnerID;
         this.playerTurn = turn;
-        this.nextAction = nextAction;
+        this.instruction = instruction;
     }
 
-    public static GameState forGame(Game game) {
+    public static GameState forGame(Game game, String instruction) {
         Cell[] gridState = getGridState(game);
         Integer winner = null;
         if (game.getHasGameEnded()) winner = game.getPlayerTurn();
-        return new GameState(gridState, winner, game.getPlayerTurn(), game.getNextAction());
+        return new GameState(gridState, winner, game.getPlayerTurn(), instruction);
     }
 
     public Cell[] getCells() {
         return this.cells;
     }
 
-    public Integer getNextAction() {
-        return this.nextAction;
+    public String getInstruction() {
+        return this.instruction;
     }
 
     /**
@@ -47,18 +47,20 @@ public class GameState {
                     {
                         "cells": %s,
                         "playerTurn": %d,
-                        "winner": null
+                        "winner": null,
+                        "instruction": %s
                     }
-                    """.formatted(Arrays.toString(this.cells), this.playerTurn);
+                    """.formatted(Arrays.toString(this.cells), this.playerTurn, this.instruction);
         } else {
             return """
                     {
                         "cells": %s,
                         "playerTurn": %d,
-                        "winner": %d
+                        "winner": %d,
+                        "instruction": %s
                     }
                    """.formatted(Arrays.toString(this.cells), this.playerTurn, 
-                                this.winner);
+                                this.winner, this.instruction);
         }
     }
 
@@ -67,8 +69,8 @@ public class GameState {
         Grid grid = game.getGrid();
         Collection<Location> p1locs = game.getPlayer(1).getAllPositions();
         Collection<Location> p2locs = game.getPlayer(2).getAllPositions();
-        for (int x = 0; x <= 5; x++) {
-            for (int y = 0; y <= 5; y++) {
+        for (int x = 0; x < 5; x++) {
+            for (int y = 0; y < 5; y++) {
                 String text = "";
                 boolean playable = false;
                 Location loc = new Location(x, y);
@@ -147,9 +149,7 @@ class Cell {
                 "playable": %b,
                 "x": %d,
                 "y": %d,
-                "level": %d,
-                "dome": %b 
             }
-            """.formatted(this.text, this.playable, this.x, this.y, this.level, this.dome);
+            """.formatted(this.text, this.playable, this.x, this.y);
     }
 }

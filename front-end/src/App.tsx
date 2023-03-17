@@ -34,7 +34,7 @@ class App extends React.Component<Props, GameState> {
     /**
      * state has type GameState as specified in the class inheritance.
      */
-    this.state = { cells: [], turn: 0, winner: null }
+    this.state = { cells: [], turn: 0, winner: null, instruction: "" }
   }
 
   /**
@@ -49,51 +49,17 @@ class App extends React.Component<Props, GameState> {
   }
 
   /**
-   * move will generate an anonymous function that the component
+   * placeworkers will generate an anonymous function that the component
    * can bind with.
    * @param x 
    * @param y 
    * @returns 
    */
-  placeworkers(x1: number, y1: number, x2: number, y2: number): React.MouseEventHandler {
+  play(x: number, y: number): React.MouseEventHandler {
     return async (e) => {
       // prevent the default behavior on clicking a link; otherwise, it will jump to a new page.
       e.preventDefault();
-      const response = await fetch(`/placeworkers?x1=${x1}&y1=${y1}&x2=${x2}&y2=${y2}`)
-      const json = await response.json();
-      this.setState(json);
-    }
-  }
-
-  /**
-   * move will generate an anonymous function that the component
-   * can bind with.
-   * @param x 
-   * @param y 
-   * @returns 
-   */
-  move(xcurr: number, ycurr: number, xnext: number, ynext: number): React.MouseEventHandler {
-    return async (e) => {
-      // prevent the default behavior on clicking a link; otherwise, it will jump to a new page.
-      e.preventDefault();
-      const response = await fetch(`/move?x1=${xcurr}&y1=${ycurr}&x2=${xnext}&y2=${ynext}`)
-      const json = await response.json();
-      this.setState(json);
-    }
-  }
-
-  /**
-   * build will generate an anonymous function that the component
-   * can bind with.
-   * @param x 
-   * @param y 
-   * @returns 
-   */
-  build(x: number, y: number): React.MouseEventHandler {
-    return async (e) => {
-      // prevent the default behavior on clicking a link; otherwise, it will jump to a new page.
-      e.preventDefault();
-      const response = await fetch(`/build?x=${x}&y=${y}`)
+      const response = await fetch(`/play?x=${x}&y=${y}`)
       const json = await response.json();
       this.setState(json);
     }
@@ -101,12 +67,6 @@ class App extends React.Component<Props, GameState> {
 
   createCell(cell: Cell, index: number): React.ReactNode {
     if (cell.playable)
-      /**
-       * key is used for React when given a list of items. It
-       * helps React to keep track of the list items and decide
-       * which list item need to be updated.
-       * @see https://reactjs.org/docs/lists-and-keys.html#keys
-       */
       return (
         <div key={index}>
           <a href='/' onClick={this.play(cell.x, cell.y)}>
@@ -118,14 +78,6 @@ class App extends React.Component<Props, GameState> {
       return (
         <div key={index}><BoardCell cell={cell}></BoardCell></div>
       )
-  }
-
-  createInstruction(): React.ReactNode {
-    if (this.state.winner !== null) {
-      return `Player ${this.state.winner} wins!`
-    } else {
-      return `It is Player ${this.state.turn}'s turn.` // still need to display what is nextAction
-    }
   }
 
   /**
@@ -157,7 +109,7 @@ class App extends React.Component<Props, GameState> {
      */
     return (
       <div>
-        <div id="instructions">{this.createInstruction()}</div>
+        <div id="instructions">{this.state.instruction}</div>
         <div id="board">
           {this.state.cells.map((cell, i) => this.createCell(cell, i))}
         </div>
