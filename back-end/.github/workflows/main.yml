@@ -41,13 +41,13 @@ jobs:
         id: change-java
         with:
           files: |
-            back-end/pom.xml
+            pom.xml
             **/*.java
 
       # Runs type checker
       - name: Run type checker
         run: |
-          timeout 2m mvn -f back-end/pom.xml site
+          timeout 2m mvn -f pom.xml site
       
       # Builds the program
       - name: Build
