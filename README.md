@@ -1,6 +1,7 @@
 ## Starting a Game ##
 
 1. Set Up Backend Server
+
 Either run the Java backend by using your IDE or by typing 
 
 ```
@@ -9,6 +10,7 @@ mvn exec:exec
 in the back-end folder. This will start the Java server at http://localhost:8080.
 
 2. Set Up Frontend Server
+
 In the front-end folder, run
 
 ```
@@ -26,4 +28,4 @@ Place workers by clicking 2 distinct unoccupied grid locations.
 Move by clicking a location with your worker on it and then clicking it to a valid move location.
 Build by clicking a valid build location by one of your workers.
 
-# Note: a player only wins after their build turn #
+Note: a player only wins after their build turn
