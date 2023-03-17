@@ -41,21 +41,21 @@ jobs:
         id: change-java
         with:
           files: |
-            pom.xml
+            back-end/pom.xml
             **/*.java
 
       # Runs type checker
       - name: Run type checker
         run: |
-          timeout 2m mvn -f pom.xml site
+          timeout 2m mvn -f back-end/pom.xml site
       
       # Builds the program
       - name: Build
-        run: mvn --batch-mode -DskipTests package
+        run: mvn --batch-mode -DskipTests -f back-end/pom.xml package
 
       # Runs test suite
       - name: Test
-        run: mvn --batch-mode -Dmaven.test.failure.ignore=true test
+        run: mvn --batch-mode -Dmaven.test.failure.ignore=true -f back-end/pom.xml test
 
       # Generates test report
       - name: Report
@@ -63,6 +63,6 @@ jobs:
         if: always()
         with:
           name: Maven Tests
-          path: target/surefire-reports/*.xml
+          path: back-end/target/surefire-reports/*.xml
           reporter: java-junit
           fail-on-error: true
