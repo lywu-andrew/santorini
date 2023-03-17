@@ -7,6 +7,7 @@ public class Location {
     
     private int row;
     private int col;
+    private final static int HASHNUM = 397;
 
     /**
      * Creates a new {@link Location} instance.
@@ -57,8 +58,8 @@ public class Location {
      */
     public int hashCode() {
         int hash = 0;
-        hash = (hash * 397) ^ this.row;
-        hash = (hash * 397) ^ this.col;
+        hash = (hash * HASHNUM) ^ this.row;
+        hash = (hash * HASHNUM) ^ this.col;
         return hash;
     }
 

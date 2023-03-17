@@ -17,7 +17,7 @@ public class App extends NanoHTTPD
     }
 
     private Game game;
-    private static int port = 8080;
+    private static final int port = 8080;
 
     /**
      * Start the server at :8080 port.
