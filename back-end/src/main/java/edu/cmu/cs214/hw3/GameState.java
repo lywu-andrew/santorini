@@ -93,7 +93,7 @@ public class GameState {
                 for (int i = 0; i < level; i++) {
                     text += "]";
                 }
-                cells[5 * y + x] = new Cell(x, y, text, playable, level, dome);
+                cells[5 * y + x] = new Cell(x, y, text, playable);
             }
         }
         return cells;
@@ -105,16 +105,12 @@ class Cell {
     private final int y;
     private final String text;
     private final boolean playable;
-    private final int level;
-    private final boolean dome;
 
-    Cell(int x, int y, String text, boolean playable, int level, boolean dome) {
+    Cell(int x, int y, String text, boolean playable) {
         this.x = x;
         this.y = y;
         this.text = text;
         this.playable = playable;
-        this.level = level;
-        this.dome = dome;
     }
 
     public int getX() {
@@ -131,14 +127,6 @@ class Cell {
 
     public boolean isPlayable() {
         return this.playable;
-    }
-
-    public int getLevel() {
-        return this.level;
-    }
-
-    public boolean hasDome() {
-        return this.dome;
     }
 
     @Override
