@@ -107,7 +107,7 @@ public class Game {
             if (grid.highest(loc))  {
                 this.hasGameEnded = true;
                 this.nextAction = -1;
-                System.out.printf("Player %d has won!", playerTurn);
+                this.instruction = String.format("Player %d has won!", playerTurn);
             }
         }
         return this.hasGameEnded;
@@ -145,7 +145,6 @@ public class Game {
      */
     public void placeWorkers(Location loc1, Location loc2) {
         if (this.hasGameEnded) {
-            this.instruction = String.format("Player %d has won!", playerTurn);
             return;
         }
         if (!loc1.checkValidLocation() || !loc2.checkValidLocation()) {
@@ -181,7 +180,6 @@ public class Game {
      */
     public void move(Location prev, Location next) {
         if (this.hasGameEnded) {
-            this.instruction = String.format("Player %d has won!", playerTurn);
             return;
         }
         if (!prev.checkValidLocation() || !next.checkValidLocation()) {
@@ -219,9 +217,7 @@ public class Game {
      * @error If the location is previously occupied, there will be no action.
      */
     public void build(Location loc) {
-        String win = String.format("Player %d has won!", playerTurn);
         if (this.hasGameEnded) {
-            this.instruction = win;
             return;
         }
         if (!loc.checkValidLocation()) {
@@ -239,8 +235,6 @@ public class Game {
             nextPlayer();                  // if player has not won on this turn, switch players
             this.nextAction = 1;
             this.instruction = String.format("Player %d's turn to %s!", playerTurn, this.getNextActionString());
-        } else {
-            this.instruction = win;
         }
     }
 }

@@ -48,7 +48,7 @@ public class GameState {
                         "cells": %s,
                         "playerTurn": %d,
                         "winner": null,
-                        "instruction": %s
+                        "instruction": "%s"
                     }
                     """.formatted(Arrays.toString(this.cells), this.playerTurn, this.instruction);
         } else {
@@ -57,7 +57,7 @@ public class GameState {
                         "cells": %s,
                         "playerTurn": %d,
                         "winner": %d,
-                        "instruction": %s
+                        "instruction": "%s"
                     }
                    """.formatted(Arrays.toString(this.cells), this.playerTurn, 
                                 this.winner, this.instruction);
@@ -82,8 +82,10 @@ public class GameState {
                 }
                 if (p1locs.contains(loc)) {
                     text += "X";
+                    playable = true;
                 } else if (p2locs.contains(loc)) {
                     text += "Y";
+                    playable = true;
                 } else if (dome) {
                     text += "O";
                 } else {
@@ -93,7 +95,7 @@ public class GameState {
                 for (int i = 0; i < level; i++) {
                     text += "]";
                 }
-                cells[5 * y + x] = new Cell(x, y, text, playable);
+                cells[5 * x + y] = new Cell(x, y, text, playable);
             }
         }
         return cells;
@@ -136,7 +138,7 @@ class Cell {
                 "text": "%s",
                 "playable": %b,
                 "x": %d,
-                "y": %d,
+                "y": %d
             }
             """.formatted(this.text, this.playable, this.x, this.y);
     }

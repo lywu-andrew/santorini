@@ -44,7 +44,9 @@ public class Location {
      * @param loc The {@link Location} to check
      * @return {@code true} if locations are equal
      */
-    public boolean equals(Location loc) {
+    public boolean equals(Object obj) {
+        if (! (obj instanceof Location)) return false;
+        Location loc = (Location) obj;
         if (loc.row == this.row && loc.col == this.col) return true;
         else return false;
     }
