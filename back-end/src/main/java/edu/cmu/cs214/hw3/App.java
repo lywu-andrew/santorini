@@ -17,13 +17,14 @@ public class App extends NanoHTTPD
     }
 
     private Game game;
+    private static int port = 8080;
 
     /**
      * Start the server at :8080 port.
      * @throws IOException
      */
     public App() throws IOException {
-        super(8080);
+        super(port);
         this.game = new Game();
 
         start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);

@@ -27,10 +27,8 @@ public class Game {
 
     /**
      * Creates a new {@link Game} instance, which contains the players.
-     * Also stores attribute of if game has ended and the current player's turn.
-     *
-     * @param p1 The first {@link Player}
-     * @param p2 The second {@link Player}
+     * Also stores attributes for if game has ended, the current player's turn,
+     * next action, selected location, and current instruction.
      */
     public Game() {
         this.p1 = new Player(1, new Worker(1), new Worker(2));
@@ -178,16 +176,16 @@ public class Game {
      * @error If the location is not adjacent to the worker, there will be no action.
      * @error If the location is previously occupied or unclimbable, there will be no action.
      */
-    public void move(Location prev, Location next) {
+    public void move(Location curr, Location next) {
         if (this.hasGameEnded) {
             return;
         }
-        if (!prev.checkValidLocation() || !next.checkValidLocation()) {
+        if (!curr.checkValidLocation() || !next.checkValidLocation()) {
             this.instruction = String.format("Player %d: Please input valid location (rows 0-4, cols 0-4)", playerTurn);
             return;
         }
         Player currPlayer = getCurrentPlayer();
-        Integer wid = currPlayer.getWorkerFromLocation(prev);
+        Integer wid = currPlayer.getWorkerFromLocation(curr);
         if (wid == -1) {
             this.instruction = String.format("Player %d: Please select a worker to move", playerTurn);
             return;

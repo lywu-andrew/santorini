@@ -7,12 +7,13 @@ import edu.cmu.cs214.hw3.state.Grid;
 import edu.cmu.cs214.hw3.state.Location;
 import edu.cmu.cs214.hw3.state.Tower;
 
-public class GameState {
+public final class GameState {
 
     private final Cell[] cells;
     private final Integer winner;
     private final Integer playerTurn;
     private final String instruction;
+    static final int GRID_SIZE = 5;
 
     private GameState(Cell[] cells, Integer winnerID, int turn, String instruction) {
         this.cells = cells;
@@ -65,12 +66,12 @@ public class GameState {
     }
 
     private static Cell[] getGridState(Game game) {
-        Cell[] cells = new Cell[25];
+        Cell[] cells = new Cell[GRID_SIZE * GRID_SIZE];
         Grid grid = game.getGrid();
         Collection<Location> p1locs = game.getPlayer(1).getAllPositions();
         Collection<Location> p2locs = game.getPlayer(2).getAllPositions();
-        for (int x = 0; x < 5; x++) {
-            for (int y = 0; y < 5; y++) {
+        for (int x = 0; x < GRID_SIZE; x++) {
+            for (int y = 0; y < GRID_SIZE; y++) {
                 String text = "";
                 boolean playable = false;
                 Location loc = new Location(x, y);
@@ -95,7 +96,7 @@ public class GameState {
                 for (int i = 0; i < level; i++) {
                     text += "]";
                 }
-                cells[5 * x + y] = new Cell(x, y, text, playable);
+                cells[GRID_SIZE * x + y] = new Cell(x, y, text, playable);
             }
         }
         return cells;

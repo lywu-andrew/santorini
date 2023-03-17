@@ -41,7 +41,7 @@ public class Location {
     /**
      * Checks if locations are equal.
      *
-     * @param loc The {@link Location} to check
+     * @param obj The {@link Object} to check
      * @return {@code true} if locations are equal
      */
     public boolean equals(Object obj) {
@@ -49,6 +49,17 @@ public class Location {
         Location loc = (Location) obj;
         if (loc.row == this.row && loc.col == this.col) return true;
         else return false;
+    }
+
+    /**
+     * from https://stackoverflow.com/questions/22826326/good-hashcode-function-for-2d-coordinates
+     * @return hashcode for Location object.
+     */
+    public int hashCode() {
+        int hash = 0;
+        hash = (hash * 397) ^ this.row;
+        hash = (hash * 397) ^ this.col;
+        return hash;
     }
 
     /**
