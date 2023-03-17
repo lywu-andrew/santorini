@@ -19,6 +19,7 @@ npm start
 This will start the front-end server at http://localhost:3000. You can update the front-end code as the server is running in the development mode (i.e., npm start). It will automatically recompile and reload.
 
 3. Play the Game!
+
 The instructions will be on the top bar, and you can start a new game anytime with the bottom button.
 
 Place workers by clicking 2 distinct unoccupied grid locations.
