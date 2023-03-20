@@ -96,6 +96,7 @@ public class Player {
     /**
      * Checks if the win condition has been satisfied: a worker is on a level 3 tower.
      *
+     * @param grid The game board
      * @return {@code true} if a player has won the game.
      */
     public boolean checkWin(Grid grid) {
@@ -113,6 +114,7 @@ public class Player {
      *
      * @param loc1 The {@link Location} to put the first worker
      * @param loc2 The {@link Location} to put the second worker
+     * @param grid The game board
      * @return {@link String} indicating action success or error
      * @error If the locations are not valid, there will be no action.
      * @error If the locations are equal, there will be no action.
@@ -138,6 +140,7 @@ public class Player {
      *
      * @param curr The current {@link Location} of the worker to move
      * @param next The destination {@link Location}
+     * @param grid The game board
      * @return {@link String} indicating action success or error
      * @error If the locations are not valid, there will be no action.
      * @error If the first location selected is not occupied by worker, there will be no action.
@@ -168,6 +171,7 @@ public class Player {
      * Sets instruction to next action if successful or user error
      *
      * @param loc The target {@link Location}
+     * @param grid The game board
      * @return {@link String} indicating action success or error
      * @error If the locations are not valid, there will be no action.
      * @error If the location is not adjacent to any of the player's workers, there will be no action.
