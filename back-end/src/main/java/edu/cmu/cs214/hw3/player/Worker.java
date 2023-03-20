@@ -29,6 +29,17 @@ public class Worker {
     }
 
     /**
+     * Checks if location is adjacent to worker.
+     *
+     * @param loc The {@link Location} to check
+     * @return {@code true} if worker is adjacent to location.
+     */
+    public boolean isAdjLocation(Location loc) {
+        if (loc.adjacent(position)) return true;
+        else return false;
+    }
+
+    /**
      * Sets the worker's position to location.
      *
      * @param newpos {@link Location} The destination location.

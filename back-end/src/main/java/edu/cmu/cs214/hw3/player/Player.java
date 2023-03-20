@@ -4,10 +4,14 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.cmu.cs214.hw3.state.Grid;
 import edu.cmu.cs214.hw3.state.Location;
 
 /**
- * Class for player of the game.
+ * Class for player of the game. 
+ * 
+ * When the user attempts actions, if there is an error, a message will be set to the game instruction,
+ * and the user will be allowed to retry that action (no action will happen as a result of a user error).
  */
 public class Player {
     
@@ -56,7 +60,7 @@ public class Player {
         return this.workerPositions.get(wid);
     }
 
-    public Integer getWorkerFromLocation(Location loc) {
+    private Integer getWorkerFromLocation(Location loc) {
         for (Integer wid: this.workers.keySet()) {
             if (getWorker(wid).getPosition().equals(loc))
                 return wid;
@@ -65,27 +69,14 @@ public class Player {
     }
 
     /**
-     * Checks if location is adjacent to worker.
-     *
-     * @param wid The id of the {@link Worker}
-     * @param loc The {@link Location} to check
-     * @return {@code true} if the worker is adjacent to the location.
-     */
-    public boolean isAdjLocation(Integer wid, Location loc) {
-        Location pos = getWorkerPosition(wid);
-        if (loc.adjacent(pos)) return true;
-        else return false;
-    }
-
-    /**
      * Checks if location is adjacent to any of the player's workers.
      *
      * @param loc The {@link Location} to check
      * @return {@code true} if any of the player's workers is adjacent to the location.
      */
-    public boolean isAdj(Location loc) {
+    private boolean isAdj(Location loc) {
         for (Integer key: this.workers.keySet()) {
-            if (isAdjLocation(key, loc)) return true;
+            if (getWorker(key).isAdjLocation(loc)) return true;
         }
         return false;
     }
@@ -96,10 +87,103 @@ public class Player {
      * @param wid The id of the {@link Worker}
      * @param loc The destination {@link Location}
      */
-    public void place(Integer wid, Location loc) {
+    private void place(Integer wid, Location loc) {
         Worker worker = getWorker(wid);
         worker.move(loc);
         this.workerPositions.put(wid, loc);
+    }
+
+    /**
+     * Checks if the win condition has been satisfied: a worker is on a level 3 tower.
+     *
+     * @return {@code true} if a player has won the game.
+     */
+    public boolean checkWin(Grid grid) {
+        Collection<Location> plocs = this.getAllPositions();
+        for (Location loc: plocs) {
+            // checks if any of the player's workers are on a level 3 tower
+            if (grid.highest(loc)) return true;
+        }
+        return false;
+    }
+
+    /**
+     * Place workers in the beginning 2 locations and switches to the next player's turn.
+     * Sets instruction to next action if successful or user error
+     *
+     * @param loc1 The {@link Location} to put the first worker
+     * @param loc2 The {@link Location} to put the second worker
+     * @return {@link String} indicating action success or error
+     * @error If the locations are not valid, there will be no action.
+     * @error If the locations are equal, there will be no action.
+     * @error If the locations are previously occupied, there will be no action.
+     */
+    public String placeWorkers(Location loc1, Location loc2, Grid grid) {
+        if (!loc1.checkValidLocation() || !loc2.checkValidLocation()) {
+            return String.format("Player %d: Please input valid location (rows 0-4, cols 0-4)", this.id);
+        } else if (loc1.equals(loc2)) {
+            return String.format("Player %d: Please input 2 distinct locations", this.id);
+        }
+        if (!grid.tryPlace(loc1, loc2)) {
+            return String.format("Player %d: Please input unoccupied locations", this.id);
+        }
+        this.place(1, loc1);
+        this.place(2, loc2);
+        return "success";
+    }
+
+    /**
+     * Moves player's worker to location.
+     * Sets instruction to next action if successful or user error
+     *
+     * @param curr The current {@link Location} of the worker to move
+     * @param next The destination {@link Location}
+     * @return {@link String} indicating action success or error
+     * @error If the locations are not valid, there will be no action.
+     * @error If the first location selected is not occupied by worker, there will be no action.
+     * @error If the location is not adjacent to the worker, there will be no action.
+     * @error If the location is previously occupied or unclimbable, there will be no action.
+     */
+    public String move(Location curr, Location next, Grid grid) {
+        if (!curr.checkValidLocation() || !next.checkValidLocation()) {
+            return String.format("Player %d: Please input valid location (rows 0-4, cols 0-4)", this.id);
+        }
+        Integer wid = this.getWorkerFromLocation(curr);
+        if (wid == -1) {
+            return String.format("Player %d: Please select a worker to move", this.id);
+        }
+        if (!getWorker(wid).isAdjLocation(next)) {
+            return String.format("Player %d: Please input adjacent location", this.id);
+        }
+        Location prevPos = this.getWorkerPosition(wid);
+        if (!grid.tryMove(prevPos, next)) {
+            return String.format("Player %d: Please input unoccupied climbable location", this.id);
+        }
+        this.place(wid, next);
+        return "success";
+    }
+
+    /**
+     * Builds at the location. Then checks if the current player has won, and if not, switches to the next player's turn.
+     * Sets instruction to next action if successful or user error
+     *
+     * @param loc The target {@link Location}
+     * @return {@link String} indicating action success or error
+     * @error If the locations are not valid, there will be no action.
+     * @error If the location is not adjacent to any of the player's workers, there will be no action.
+     * @error If the location is previously occupied, there will be no action.
+     */
+    public String build(Location loc, Grid grid) {
+        if (!loc.checkValidLocation()) {
+            return String.format("Player %d: Please input valid location (rows 0-4, cols 0-4)", this.id);
+        }
+        if (!this.isAdj(loc)) {
+            return String.format("Player %d: Please input adjacent location to a worker", this.id);
+        }
+        if (!grid.tryBuild(loc)) {
+            return String.format("Player %d: Grid is occupied at that location or the tower is domed", this.id);
+        }
+        return "success";
     }
 
 }

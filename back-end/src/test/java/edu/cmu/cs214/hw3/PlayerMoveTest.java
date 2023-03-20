@@ -9,13 +9,17 @@ import edu.cmu.cs214.hw3.state.Location;
 
 import static org.junit.Assert.*;
 
-public class GameMoveTest {
+public class PlayerMoveTest {
 
     private Game game;
+    private Player p1;
+    private Player p2;
 
     @Before
     public void setUp() {
         game = new Game();
+        p1 = game.getPlayer(1);
+        p2 = game.getPlayer(2);
     }
 
     @Test
@@ -24,16 +28,15 @@ public class GameMoveTest {
         Grid grid = game.getGrid();
         Location loc1 = new Location(0, 0);
         Location loc2 = new Location(4, 4);
-        game.placeWorkers(loc1, loc2);
+        p1.placeWorkers(loc1, loc2, grid);
         Location loc3 = new Location(1, 1);
         Location loc4 = new Location(3, 3);
-        game.placeWorkers(loc3, loc4);
+        p2.placeWorkers(loc3, loc4, grid);
         Location newLoc = new Location(0, 1);
         assertFalse(grid.isOccupied(newLoc));
-        game.move(loc1, newLoc);
+        p1.move(loc1, newLoc, grid);
         assertTrue(grid.isOccupied(newLoc));
         assertFalse(grid.isOccupied(loc1));
-        Player p1 = game.getPlayer(1);
         Location w1pos = p1.getWorkerPosition(1);
         assertTrue(newLoc.equals(w1pos));
     }
@@ -44,15 +47,14 @@ public class GameMoveTest {
         Grid grid = game.getGrid();
         Location loc1 = new Location(0, 0);
         Location loc2 = new Location(4, 4);
-        game.placeWorkers(loc1, loc2);
+        p1.placeWorkers(loc1, loc2, grid);
         Location loc3 = new Location(1, 1);
         Location loc4 = new Location(3, 3);
-        game.placeWorkers(loc3, loc4);
+        p2.placeWorkers(loc3, loc4, grid);
         Location newLoc = new Location(-1, -1);
-        game.move(loc1, newLoc);
+        p1.move(loc1, newLoc, grid);
         assertTrue(grid.isOccupied(loc1));
         assertFalse(grid.isOccupied(newLoc));
-        Player p1 = game.getPlayer(1);
         Location w1pos = p1.getWorkerPosition(1);
         assertTrue(loc1.equals(w1pos));
     }
@@ -63,14 +65,13 @@ public class GameMoveTest {
         Grid grid = game.getGrid();
         Location loc1 = new Location(0, 0);
         Location loc2 = new Location(4, 4);
-        game.placeWorkers(loc1, loc2);
+        p1.placeWorkers(loc1, loc2, grid);
         Location loc3 = new Location(1, 1);
         Location loc4 = new Location(3, 3);
-        game.placeWorkers(loc3, loc4);
+        p2.placeWorkers(loc3, loc4, grid);
         Location newLoc = new Location(2, 2);
-        game.move(loc1, newLoc);
+        p1.move(loc1, newLoc, grid);
         assertFalse(grid.isOccupied(newLoc));
-        Player p1 = game.getPlayer(1);
         Location w1pos = p1.getWorkerPosition(1);
         assertTrue(loc1.equals(w1pos));
     }
@@ -81,15 +82,14 @@ public class GameMoveTest {
         Grid grid = game.getGrid();
         Location loc1 = new Location(0, 0);
         Location loc2 = new Location(4, 4);
-        game.placeWorkers(loc1, loc2);
+        p1.placeWorkers(loc1, loc2, grid);
         Location loc3 = new Location(1, 1);
         Location loc4 = new Location(3, 3);
-        game.placeWorkers(loc3, loc4);
+        p2.placeWorkers(loc3, loc4, grid);
         Location newLoc = new Location(1, 1);
-        game.move(loc1, newLoc);
+        p1.move(loc1, newLoc, grid);
         assertTrue(grid.isOccupied(loc1));
         assertTrue(grid.isOccupied(loc3));
-        Player p1 = game.getPlayer(1);
         Location w1pos = p1.getWorkerPosition(1);
         assertFalse(newLoc.equals(w1pos));
     }
@@ -100,20 +100,19 @@ public class GameMoveTest {
         Grid grid = game.getGrid();
         Location loc1 = new Location(0, 0);
         Location loc2 = new Location(4, 4);
-        game.placeWorkers(loc1, loc2);
+        p1.placeWorkers(loc1, loc2, grid);
         Location loc3 = new Location(1, 1);
         Location loc4 = new Location(3, 3);
-        game.placeWorkers(loc3, loc4);
+        p2.placeWorkers(loc3, loc4, grid);
         Location newLoc1 = new Location(4, 3);
         Location newLoc2 = new Location(3, 2);
         Location towerLoc = new Location(0, 1);
-        game.move(loc2, newLoc1);
-        game.build(towerLoc);
-        game.move(loc4, newLoc2);
-        game.build(towerLoc);
-        game.move(loc1, towerLoc);
+        p1.move(loc2, newLoc1, grid);
+        p1.build(towerLoc, grid);
+        p2.move(loc4, newLoc2, grid);
+        p2.build(towerLoc, grid);
+        p1.move(loc1, towerLoc, grid);
         assertFalse(grid.isOccupied(towerLoc));
-        Player p1 = game.getPlayer(1);
         Location w1pos = p1.getWorkerPosition(1);
         assertFalse(towerLoc.equals(w1pos));
     }
