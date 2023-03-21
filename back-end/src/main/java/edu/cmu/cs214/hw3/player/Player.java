@@ -20,7 +20,7 @@ public abstract class Player {
     private Map<Integer, Worker> workers;
     private Map<Integer, Location> workerPositions;
 
-    public static Map<Integer, Player> players = new HashMap<Integer, Player>(); // to access each player
+    private static Map<Integer, Player> players = new HashMap<Integer, Player>(); // to access each player
 
     /**
      * Creates a new {@link Player} instance.
