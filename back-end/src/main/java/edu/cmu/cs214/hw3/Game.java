@@ -2,6 +2,9 @@ package edu.cmu.cs214.hw3;
 
 import edu.cmu.cs214.hw3.player.Player;
 import edu.cmu.cs214.hw3.player.Worker;
+import edu.cmu.cs214.hw3.player.godcards.Demeter;
+import edu.cmu.cs214.hw3.player.godcards.Minotaur;
+import edu.cmu.cs214.hw3.player.godcards.Pan;
 import edu.cmu.cs214.hw3.state.Grid;
 import edu.cmu.cs214.hw3.state.Location;
 
@@ -16,7 +19,7 @@ public class Game {
     private Player p1;
     private Player p2;
     private Grid grid;
-    private Integer nextAction; // -1 = none, 0 = place workers, 1 = move, 2 = build
+    private Integer nextAction; // -1 = none, 0 = place workers, 1 = move, 2 = build, 3 = pick god card
     private Location selectedLoc;
     private boolean selected;
     private String instruction;
@@ -32,10 +35,12 @@ public class Game {
         this.grid = new Grid();
         this.hasGameEnded = false;
         this.playerTurn = p1.getID();
-        this.nextAction = 0;
+        this.nextAction = 3;
         this.selectedLoc = new Location(-1, -1);
         this.selected = false;
-        this.instruction = "Player 1's turn to place workers!";
+        this.instruction = "Player 1's turn to pick a card!";
+        Player.players.put(p1.getID(), this.p1);
+        Player.players.put(p2.getID(), this.p2);
     }
 
     public Integer getPlayerTurn() {
@@ -55,8 +60,9 @@ public class Game {
         return this.nextAction;
     }
 
-    public String getNextActionString() {
-        if (this.nextAction == 0) return "place workers";
+    private String getNextActionString() {
+        if (this.nextAction == 3) return "pick a card";
+        else if (this.nextAction == 0) return "place workers";
         else if (this.nextAction == 1) return "move";
         else if (this.nextAction == 2) return "build";
         else return "do nothing";
@@ -84,7 +90,8 @@ public class Game {
     }
 
     private void nextTurn() {
-        if (this.nextAction == 0 && this.playerTurn == 2) this.nextAction = 1;
+        if (this.nextAction == 3 && this.playerTurn == 2) this.nextAction = 0;
+        else if (this.nextAction == 0 && this.playerTurn == 2) this.nextAction = 1;
         else if (this.nextAction == 1) {
             this.nextAction = 2;
             return;
@@ -98,24 +105,29 @@ public class Game {
     }
 
     /**
-     * Checks if the win condition has been satisfied: a worker is on a level 3 tower.
+     * User can pick a god card.
+     * 0 = default Player, 1 = Demeter, 2 = Minotaur, 3 = Pan
      *
-     * @return {@code true} if a player has won the game and prints a message.
-    
-    private boolean checkWin() {
-        Player currPlayer = getCurrentPlayer();
-        Collection<Location> plocs = currPlayer.getAllPositions();
-        for (Location loc: plocs) {
-            // checks if any of the player's workers are on a level 3 tower
-            if (grid.highest(loc))  {
-                this.hasGameEnded = true;
-                this.nextAction = -1;
-                this.instruction = String.format("Player %d has won!", playerTurn);
-            }
+     * @param num The {@link Integer} which represents the user's selection
+     */
+    public void pickCard(Integer num) {
+        Player p = null;
+        switch(num) {
+            case 1: p = new Demeter(this.playerTurn, new Worker(1), new Worker(2)); break;
+            case 2: p = new Minotaur(this.playerTurn, new Worker(1), new Worker(2)); break;
+            case 3: p = new Pan(this.playerTurn, new Worker(1), new Worker(2)); break;
+            default: p = new Player(this.playerTurn, new Worker(1), new Worker(2)); break;
         }
-        return this.hasGameEnded;
+        if (this.playerTurn == 1) {
+            this.p1 = p;
+            Player.players.put(p1.getID(), this.p1);
+        } else {
+            this.p2 = p;
+            Player.players.put(p2.getID(), this.p2);
+        }
+        nextTurn();
+        this.instruction = String.format("Player %d's turn to %s!", playerTurn, this.getNextActionString());
     }
-    */
 
     /**
      * If first selection, stores location as selected. If second selection, performs corresponding action.
@@ -154,113 +166,4 @@ public class Game {
             this.instruction = res;     // error message
         }
     }
-
-    /**
-     * Place workers in the beginning 2 locations and switches to the next player's turn.
-     * Sets instruction to next action if successful or user error
-     *
-     * @param loc1 The {@link Location} to put the first worker
-     * @param loc2 The {@link Location} to put the second worker
-     * @error If game has ended, there will be no action.
-     * @error If the locations are not valid, there will be no action.
-     * @error If the locations are equal, there will be no action.
-     * @error If the locations are previously occupied, there will be no action.
-     *
-    public void placeWorkers(Location loc1, Location loc2) {
-        if (this.hasGameEnded) {
-            return;
-        }
-        if (!loc1.checkValidLocation() || !loc2.checkValidLocation()) {
-            this.instruction = String.format("Player %d: Please input valid location (rows 0-4, cols 0-4)", playerTurn);
-            return;
-        } else if (loc1.equals(loc2)) {
-            this.instruction = String.format("Player %d: Please input 2 distinct locations", playerTurn);
-            return;
-        }
-        Player currPlayer = getCurrentPlayer();
-        if (!grid.tryPlace(loc1, loc2)) {
-            this.instruction = String.format("Player %d: Please input unoccupied locations", playerTurn);
-            return;
-        }
-        currPlayer.place(1, loc1);
-        currPlayer.place(2, loc2);
-        if (getPlayerTurn() == 2) this.nextAction = 1;
-        nextPlayer();
-        this.instruction = String.format("Player %d's turn to %s!", playerTurn, this.getNextActionString());
-    }
-    /
-
-    /**
-     * Moves player's worker to location.
-     * Sets instruction to next action if successful or user error
-     *
-     * @param curr The current {@link Location} of the worker to move
-     * @param next The destination {@link Location}
-     * @error If game has ended, there will be no action.
-     * @error If the locations are not valid, there will be no action.
-     * @error If the first location selected is not occupied by worker, there will be no action.
-     * @error If the location is not adjacent to the worker, there will be no action.
-     * @error If the location is previously occupied or unclimbable, there will be no action.
-    public void move(Location curr, Location next) {
-        if (this.hasGameEnded) {
-            return;
-        }
-        if (!curr.checkValidLocation() || !next.checkValidLocation()) {
-            this.instruction = String.format("Player %d: Please input valid location (rows 0-4, cols 0-4)", playerTurn);
-            return;
-        }
-        Player currPlayer = getCurrentPlayer();
-        Integer wid = currPlayer.getWorkerFromLocation(curr);
-        if (wid == -1) {
-            this.instruction = String.format("Player %d: Please select a worker to move", playerTurn);
-            return;
-        }
-        if (!currPlayer.isAdjLocation(wid, next)) {
-            this.instruction = String.format("Player %d: Please input adjacent location", playerTurn);
-            return;
-        }
-        Location prevPos = currPlayer.getWorkerPosition(wid);
-        if (!grid.tryMove(prevPos, next)) {
-            this.instruction = String.format("Player %d: Please input unoccupied climbable location", playerTurn);
-            return;
-        }
-        currPlayer.place(wid, next);
-        if (!checkWin()) {                 // check if current player has won
-            this.nextAction = 2;           // if player has not won on this turn, go to build action
-            this.instruction = String.format("Player %d's turn to %s!", playerTurn, this.getNextActionString());
-        }
-    }
-    */
-
-    /**
-     * Builds at the location. Then checks if the current player has won, and if not, switches to the next player's turn.
-     * Sets instruction to next action if successful or user error
-     *
-     * @param loc The target {@link Location}
-     * @error If game has ended, there will be no action.
-     * @error If the locations are not valid, there will be no action.
-     * @error If the location is not adjacent to any of the player's workers, there will be no action.
-     * @error If the location is previously occupied, there will be no action.
-    public void build(Location loc) {
-        if (this.hasGameEnded) {
-            return;
-        }
-        if (!loc.checkValidLocation()) {
-            this.instruction = String.format("Player %d: Please input valid location (rows 0-4, cols 0-4)", playerTurn);
-            return;
-        }
-        Player currPlayer = getCurrentPlayer();
-        if (!currPlayer.isAdj(loc)) {
-            this.instruction = String.format("Player %d: Please input adjacent location to a worker", playerTurn);
-            return;
-        }
-        if (!grid.tryBuild(loc)) {
-            this.instruction = String.format("Player %d: Grid is occupied at that location or the tower is domed", playerTurn);
-            return;
-        }
-        nextPlayer();
-        this.nextAction = 1;
-        this.instruction = String.format("Player %d's turn to %s!", playerTurn, this.getNextActionString());
-    }
-    */
 }

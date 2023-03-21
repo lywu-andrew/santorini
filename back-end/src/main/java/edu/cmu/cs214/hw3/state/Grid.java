@@ -74,7 +74,23 @@ public class Grid {
         return false;
     }
 
-    private boolean tryOccupy(Location loc) {
+    /**
+     * Removes location from occupied locations.
+     *
+     * @param loc The {@link Location} to remove
+     */
+    public void remOccupy(Location loc) {
+        occupiedFields.remove(loc);
+    }
+
+    /**
+     * Tries to occupy at 1 location in the grid.
+     *
+     * @param loc The first {@link Location} in the grid
+     * @return {@code true} if success:
+     *                         both locations were not previously occupied
+     */
+    public boolean tryOccupy(Location loc) {
         if (isOccupied(loc)) return false;
         else {
             occupiedFields.add(loc);

@@ -41,6 +41,9 @@ public class App extends NanoHTTPD
             // e.g., /play?x=x&y=y
             Location loc = new Location(Integer.parseInt(params.get("x")), Integer.parseInt(params.get("y")));
             this.game.selectLocation(loc);
+        } else if (uri.equals("/pickcard")) {
+            // e.g., /pickcard?i=i
+            this.game.pickCard(Integer.parseInt(params.get("i")));
         }
         // Extract the view-specific data from the game and apply it to the template.
         GameState gameplay = GameState.forGame(this.game, this.game.getInstruction());

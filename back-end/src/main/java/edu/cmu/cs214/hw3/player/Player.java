@@ -20,6 +20,9 @@ public class Player {
     private Map<Integer, Worker> workers;
     private Map<Integer, Location> workerPositions;
 
+    // Players can access each other
+    public static Map<Integer, Player> players = new HashMap<Integer, Player>();
+
     /**
      * Creates a new {@link Player} instance.
      * Also stores attribute of its {@link Worker} objects' {@link Location}
@@ -60,14 +63,6 @@ public class Player {
         return this.workerPositions.get(wid);
     }
 
-    private Integer getWorkerFromLocation(Location loc) {
-        for (Integer wid: this.workers.keySet()) {
-            if (getWorker(wid).getPosition().equals(loc))
-                return wid;
-        }
-        return -1;
-    }
-
     /**
      * Checks if location is adjacent to any of the player's workers.
      *
@@ -82,12 +77,27 @@ public class Player {
     }
 
     /**
+     * Finds if a worker is at a certain location.
+     *
+     * @param loc The location
+     * @return {@code Integer} the worker's id or
+     *                         -1 if none of the current player's workers are at the location.
+     */
+    public Integer getWorkerFromLocation(Location loc) {
+        for (Integer wid: this.workers.keySet()) {
+            if (getWorker(wid).getPosition().equals(loc))
+                return wid;
+        }
+        return -1;
+    }
+
+    /**
      * Moves worker to location and updates worker positions.
      *
      * @param wid The id of the {@link Worker}
      * @param loc The destination {@link Location}
      */
-    private void place(Integer wid, Location loc) {
+    public void place(Integer wid, Location loc) {
         Worker worker = getWorker(wid);
         worker.move(loc);
         this.workerPositions.put(wid, loc);

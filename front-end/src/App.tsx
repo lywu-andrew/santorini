@@ -49,7 +49,24 @@ class App extends React.Component<Props, GameState> {
   }
 
   /**
-   * placeworkers will generate an anonymous function that the component
+   * pickCard will generate an anonymous function that the component
+   * can bind with.
+   * @param x 
+   * @param y 
+   * @returns 
+   */
+  pickCard(i: number): React.MouseEventHandler {
+    return async (e) => {
+      // prevent the default behavior on clicking a link; otherwise, it will jump to a new page.
+      e.preventDefault();
+      const response = await fetch(`/pickcard?i=${i}`)
+      const json = await response.json();
+      this.setState(json);
+    }
+  }
+
+  /**
+   * play will generate an anonymous function that the component
    * can bind with.
    * @param x 
    * @param y 
@@ -112,6 +129,12 @@ class App extends React.Component<Props, GameState> {
         <div id="instructions">{this.state.instruction}</div>
         <div id="board">
           {this.state.cells.map((cell, i) => this.createCell(cell, i))}
+        </div>
+        <div id="cardbar">
+          <button onClick={this.pickCard(0)}>Player</button>
+          <button onClick={this.pickCard(1)}>Demeter</button>
+          <button onClick={this.pickCard(2)}>Minotaur</button>
+          <button onClick={this.pickCard(3)}>Pan</button>
         </div>
         <div id="bottombar">
           <button onClick={/* get the function, not call the function */this.newGame}>New Game</button>

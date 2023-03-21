@@ -22,6 +22,12 @@ public class GameTest {
     public void testNormalGame() {
         setUp();
         assertTrue(game.getPlayerTurn() == 1);
+        assertTrue(game.getNextAction() == 3);
+        game.pickCard(0);
+        assertTrue(game.getPlayerTurn() == 2);
+        assertTrue(game.getNextAction() == 3);
+        game.pickCard(0);
+        assertTrue(game.getPlayerTurn() == 1);
         assertTrue(game.getNextAction() == 0);
         Grid grid = game.getGrid();
         Location loc1 = new Location(0, 0);
@@ -115,6 +121,12 @@ public class GameTest {
     @Test
     public void testGameWithMistakes() {
         setUp();
+        assertTrue(game.getPlayerTurn() == 1);
+        assertTrue(game.getNextAction() == 3);
+        game.pickCard(0);
+        assertTrue(game.getPlayerTurn() == 2);
+        assertTrue(game.getNextAction() == 3);
+        game.pickCard(0);
         Location loc1 = new Location(0, 0);
         Location loc2 = new Location(1, 1);
         game.selectLocation(loc1);
@@ -194,5 +206,135 @@ public class GameTest {
         game.selectLocation(new Location(3, 2));
         game.selectLocation(new Location(4, 1));
         assertTrue(game.getPlayerTurn() == 1);
+    }
+
+    @Test
+    public void testGodCard() {
+        setUp();
+        game.pickCard(1); // Demeter
+        game.pickCard(0);
+        Location loc1 = new Location(0, 0);
+        Location loc2 = new Location(1, 1);
+        game.selectLocation(loc1);
+        game.selectLocation(loc2);
+        Location loc3 = new Location(2, 2);
+        Location loc4 = new Location(3, 3);
+        game.selectLocation(loc3);
+        game.selectLocation(loc4);
+        game.selectLocation(loc1);
+        game.selectLocation(new Location(0, 1));
+        game.selectLocation(loc1);
+        assertTrue(game.getNextAction() == 2); // optional build
+        game.selectLocation(loc1);
+        assertTrue(game.getNextAction() == 2); // error same location
+        game.selectLocation(new Location(0, 2));
+        assertTrue(game.getPlayerTurn() == 2);
+        assertTrue(game.getNextAction() == 1);
+        game.selectLocation(loc3);
+        game.selectLocation(new Location(2, 3));
+        game.selectLocation(new Location(2, 4));
+        assertTrue(game.getPlayerTurn() == 1);
+        assertTrue(game.getNextAction() == 1);
+        game.selectLocation(new Location(0, 1));
+        game.selectLocation(loc1);
+        game.selectLocation(new Location(1, 0));
+        assertTrue(game.getPlayerTurn() == 1);
+        assertTrue(game.getNextAction() == 2);
+        game.selectLocation(loc1);             // cancel optional build
+        assertTrue(game.getPlayerTurn() == 2);
+        assertTrue(game.getNextAction() == 1);
+        game.selectLocation(loc4);
+        game.selectLocation(new Location(2, 4));
+        game.selectLocation(loc4);
+        game.selectLocation(loc2);
+        game.selectLocation(new Location(2, 1));
+        assertTrue(game.getPlayerTurn() == 1);
+        assertTrue(game.getNextAction() == 2);
+        game.selectLocation(new Location(1, 0));
+        assertTrue(game.getPlayerTurn() == 1);
+        assertTrue(game.getNextAction() == 2);
+        game.selectLocation(new Location(2, 0));
+    }
+
+    @Test
+    public void testGodCards() {
+        setUp();
+        game.pickCard(2); // Minotaur
+        game.pickCard(3); // Pan
+        Location loc1 = new Location(0, 0);
+        Location loc2 = new Location(1, 1);
+        game.selectLocation(loc1);
+        game.selectLocation(loc2);
+        Location loc3 = new Location(2, 2);
+        Location loc4 = new Location(3, 3);
+        game.selectLocation(loc3);
+        game.selectLocation(loc4);
+        game.selectLocation(loc2);
+        game.selectLocation(loc3);
+        assertTrue(game.getPlayerTurn() == 1);
+        assertFalse(game.getNextAction() == 2); // worker on loc4
+        game.selectLocation(loc2);
+        game.selectLocation(new Location(2, 1));
+        assertTrue(game.getPlayerTurn() == 1);
+        assertTrue(game.getNextAction() == 2);
+        game.selectLocation(new Location(1, 0));
+        game.selectLocation(loc4);
+        game.selectLocation(new Location(3, 2));
+        game.selectLocation(loc4);
+        game.selectLocation(new Location(2, 1));
+        game.selectLocation(loc3);
+        game.selectLocation(loc2);
+        game.selectLocation(new Location(2, 3));
+        game.selectLocation(loc4);
+        game.selectLocation(new Location(4, 3));
+        game.selectLocation(loc3);
+        game.selectLocation(loc4);
+        assertTrue(game.getPlayerTurn() == 1);
+        assertTrue(game.getNextAction() == 2);
+        assertTrue(game.getPlayer(2).getAllPositions().contains(new Location(4, 4)));
+        game.selectLocation(new Location(1, 0));
+        game.selectLocation(new Location(3, 2));
+        game.selectLocation(new Location(4, 3));
+        game.selectLocation(new Location(3, 4));
+        assertTrue(game.getPlayerTurn() == 1);
+        assertTrue(game.getNextAction() == 1);
+        game.selectLocation(loc1);
+        game.selectLocation(loc2);
+        game.selectLocation(loc1);
+        assertTrue(game.getPlayerTurn() == 2);
+        assertTrue(game.getNextAction() == 1);
+        game.selectLocation(new Location(4, 3));
+        game.selectLocation(new Location(4, 2));
+        game.selectLocation(new Location(4, 3));
+        assertTrue(game.getPlayerTurn() == 1);
+        assertTrue(game.getNextAction() == 1);
+        game.selectLocation(loc4);
+        game.selectLocation(new Location(3, 4));
+        game.selectLocation(loc1);
+        assertTrue(game.getPlayerTurn() == 2);
+        assertTrue(game.getNextAction() == 1);
+        game.selectLocation(new Location(4, 2));
+        game.selectLocation(loc4);
+        game.selectLocation(new Location(4, 2));
+        assertTrue(game.getPlayerTurn() == 1);
+        assertTrue(game.getNextAction() == 1);
+        game.selectLocation(loc2);
+        game.selectLocation(new Location(1, 0));
+        game.selectLocation(loc1);
+        assertTrue(game.getPlayerTurn() == 2);
+        assertTrue(game.getNextAction() == 1);
+        game.selectLocation(loc4);
+        game.selectLocation(new Location(4, 3));
+        game.selectLocation(new Location(4, 2));
+        assertTrue(game.getPlayerTurn() == 1);
+        assertTrue(game.getNextAction() == 1);
+        game.selectLocation(new Location(3, 4));
+        game.selectLocation(loc4);
+        game.selectLocation(new Location(3, 4));
+        assertTrue(game.getPlayerTurn() == 2);
+        assertTrue(game.getNextAction() == 1);
+        game.selectLocation(new Location(4, 3));
+        game.selectLocation(new Location(3, 2));
+        assertTrue(game.getHasGameEnded());
     }
 }
