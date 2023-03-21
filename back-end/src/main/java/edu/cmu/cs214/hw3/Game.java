@@ -24,6 +24,11 @@ public class Game {
     private boolean selected;
     private String instruction;
 
+    private final static Integer PLACE_WRKS = 0;
+    private final static Integer MOVE = 1;
+    private final static Integer BUILD = 2;
+    private final static Integer PICK_CARD = 3;
+
     /**
      * Creates a new {@link Game} instance, which contains the players.
      * Also stores attributes for if game has ended, the current player's turn,
@@ -35,12 +40,12 @@ public class Game {
         this.grid = new Grid();
         this.hasGameEnded = false;
         this.playerTurn = p1.getID();
-        this.nextAction = 3;
+        this.nextAction = PICK_CARD;
         this.selectedLoc = new Location(-1, -1);
         this.selected = false;
         this.instruction = "Player 1's turn to pick a card!";
-        Player.players.put(p1.getID(), this.p1);
-        Player.players.put(p2.getID(), this.p2);
+        Player.getPlayers().put(p1.getID(), this.p1);
+        Player.getPlayers().put(p2.getID(), this.p2);
     }
 
     public Integer getPlayerTurn() {
@@ -61,10 +66,10 @@ public class Game {
     }
 
     private String getNextActionString() {
-        if (this.nextAction == 3) return "pick a card";
-        else if (this.nextAction == 0) return "place workers";
-        else if (this.nextAction == 1) return "move";
-        else if (this.nextAction == 2) return "build";
+        if (this.nextAction == PICK_CARD) return "pick a card";
+        else if (this.nextAction == PLACE_WRKS) return "place workers";
+        else if (this.nextAction == MOVE) return "move";
+        else if (this.nextAction == BUILD) return "build";
         else return "do nothing";
     }
 
@@ -90,12 +95,12 @@ public class Game {
     }
 
     private void nextTurn() {
-        if (this.nextAction == 3 && this.playerTurn == 2) this.nextAction = 0;
-        else if (this.nextAction == 0 && this.playerTurn == 2) this.nextAction = 1;
-        else if (this.nextAction == 1) {
-            this.nextAction = 2;
+        if (this.nextAction == PICK_CARD && this.playerTurn == 2) this.nextAction = PLACE_WRKS;
+        else if (this.nextAction == PLACE_WRKS && this.playerTurn == 2) this.nextAction = MOVE;
+        else if (this.nextAction == MOVE) {
+            this.nextAction = BUILD;
             return;
-        } else if (this.nextAction == 2) this.nextAction = 1;
+        } else if (this.nextAction == BUILD) this.nextAction = MOVE;
         nextPlayer();
     }
 
@@ -120,10 +125,10 @@ public class Game {
         }
         if (this.playerTurn == 1) {
             this.p1 = p;
-            Player.players.put(p1.getID(), this.p1);
+            Player.getPlayers().put(p1.getID(), this.p1);
         } else {
             this.p2 = p;
-            Player.players.put(p2.getID(), this.p2);
+            Player.getPlayers().put(p2.getID(), this.p2);
         }
         nextTurn();
         this.instruction = String.format("Player %d's turn to %s!", playerTurn, this.getNextActionString());
@@ -140,15 +145,15 @@ public class Game {
         if (this.hasGameEnded) return;
         Player currPlayer = this.getCurrentPlayer();
         String res = this.instruction;
-        if (this.nextAction == 2) {
+        if (this.nextAction == BUILD) {
             res = currPlayer.build(loc, this.grid);
         } else if (!this.selected) {
             this.selectedLoc = loc;
             this.selected = true;
         } else {
-            if (this.nextAction == 0) {
+            if (this.nextAction == PLACE_WRKS) {
                 res = currPlayer.placeWorkers(this.selectedLoc, loc, this.grid);
-            } else if (this.nextAction == 1) {
+            } else if (this.nextAction == MOVE) {
                 res = currPlayer.move(this.selectedLoc, loc, this.grid);
                 if (currPlayer.checkWin(this.grid)) {    // check if current player has won
                     this.hasGameEnded = true;

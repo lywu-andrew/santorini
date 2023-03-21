@@ -15,8 +15,8 @@ public class Minotaur extends Player {
     }
 
     private Player getOpponent() {
-        for (Integer pid: Player.players.keySet()) {
-            if (pid != super.getID()) return Player.players.get(pid);
+        for (Integer pid: Player.getPlayers().keySet()) {
+            if (pid != super.getID()) return Player.getPlayers().get(pid);
         }
         return this;
     }
@@ -34,6 +34,7 @@ public class Minotaur extends Player {
                 Player p2 = this.getOpponent();
                 Integer wid = p2.getWorkerFromLocation(next);
                 p2.place(wid, newLoc);
+                grid.remOccupy(prev);
                 return true;
             }
         }

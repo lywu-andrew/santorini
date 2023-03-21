@@ -82,8 +82,8 @@ public class GodCardTest {
     @Test
     public void testMinotaur() {
         setUp();
-        Player.players.put(1, minotaur);
-        Player.players.put(2, p);
+        Player.getPlayers().put(1, minotaur);
+        Player.getPlayers().put(2, p);
         Location loc1 = new Location(0, 0);
         Location loc2 = new Location(1, 1);
         minotaur.placeWorkers(loc1, loc2, grid);

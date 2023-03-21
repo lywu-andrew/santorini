@@ -21,7 +21,7 @@ public class Player {
     private Map<Integer, Location> workerPositions;
 
     // Players can access each other
-    public static Map<Integer, Player> players = new HashMap<Integer, Player>();
+    private static Map<Integer, Player> players = new HashMap<Integer, Player>();
 
     /**
      * Creates a new {@link Player} instance.
@@ -37,6 +37,10 @@ public class Player {
         this.workers.put(w1.getID(), w1);
         this.workers.put(w2.getID(), w2);
         this.workerPositions = new HashMap<Integer, Location>();
+    }
+
+    public static Map<Integer, Player> getPlayers() {
+        return players;
     }
 
     public Integer getID() {
