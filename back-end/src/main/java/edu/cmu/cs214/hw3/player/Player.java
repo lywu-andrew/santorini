@@ -20,8 +20,7 @@ public class Player {
     private Map<Integer, Worker> workers;
     private Map<Integer, Location> workerPositions;
 
-    // Players can access each other
-    private static Map<Integer, Player> players = new HashMap<Integer, Player>();
+    private static Map<Integer, Player> players = new HashMap<Integer, Player>(); // to access each player
 
     /**
      * Creates a new {@link Player} instance.
@@ -150,6 +149,7 @@ public class Player {
 
     /**
      * Moves player's worker to location.
+     * Then checks if the current player has won, and if not, goes to build action.
      * Sets instruction to next action if successful or user error
      *
      * @param curr The current {@link Location} of the worker to move
@@ -181,7 +181,7 @@ public class Player {
     }
 
     /**
-     * Builds at the location. Then checks if the current player has won, and if not, switches to the next player's turn.
+     * Builds at the location. Then, switches over to other player's turn.
      * Sets instruction to next action if successful or user error
      *
      * @param loc The target {@link Location}

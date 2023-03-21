@@ -10,13 +10,16 @@ import edu.cmu.cs214.hw3.state.Location;
  */
 public class Minotaur extends Player {
 
+    /**
+     * Creates a new {@link Minotaur} instance.
+     */
     public Minotaur(int id, Worker w1, Worker w2) {
         super(id, w1, w2);
     }
 
     private Player getOpponent() {
         for (Integer pid: Player.getPlayers().keySet()) {
-            if (pid != super.getID()) return Player.getPlayers().get(pid);
+            if (pid != super.getID()) return Player.getPlayers().get(pid); // gets opposing player
         }
         return this;
     }
@@ -41,6 +44,23 @@ public class Minotaur extends Player {
         return false;
     }
 
+    /**
+     * Moves player's worker to location.
+     * If target location has opposing player's worker, can take their space if
+     * can force them 1 space backwards to an unoccupied space at any level.
+     * 
+     * Then checks if the current player has won, and if not, goes to build action.
+     * Sets instruction to next action if successful or user error
+     *
+     * @param curr The current {@link Location} of the worker to move
+     * @param next The destination {@link Location}
+     * @param grid The game board
+     * @return {@link String} indicating action success or error
+     * @error If the locations are not valid, there will be no action.
+     * @error If the first location selected is not occupied by worker, there will be no action.
+     * @error If the location is not adjacent to the worker, there will be no action.
+     * @error If the location is previously occupied or unclimbable, there will be no action.
+     */
     @Override
     public String move(Location curr, Location next, Grid grid) {
         if (!curr.checkValidLocation() || !next.checkValidLocation()) {
