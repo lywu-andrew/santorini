@@ -23,10 +23,10 @@ public class GameTest {
         setUp();
         assertTrue(game.getPlayerTurn() == 1);
         assertTrue(game.getNextAction() == 3);
-        game.pickCard(0);
+        game.pickCard(3);
         assertTrue(game.getPlayerTurn() == 2);
         assertTrue(game.getNextAction() == 3);
-        game.pickCard(0);
+        game.pickCard(3);
         assertTrue(game.getPlayerTurn() == 1);
         assertTrue(game.getNextAction() == 0);
         Grid grid = game.getGrid();
@@ -123,10 +123,10 @@ public class GameTest {
         setUp();
         assertTrue(game.getPlayerTurn() == 1);
         assertTrue(game.getNextAction() == 3);
-        game.pickCard(0);
+        game.pickCard(3);
         assertTrue(game.getPlayerTurn() == 2);
         assertTrue(game.getNextAction() == 3);
-        game.pickCard(0);
+        game.pickCard(3);
         Location loc1 = new Location(0, 0);
         Location loc2 = new Location(1, 1);
         game.selectLocation(loc1);
@@ -211,8 +211,8 @@ public class GameTest {
     @Test
     public void testGodCard() {
         setUp();
-        game.pickCard(1); // Demeter
-        game.pickCard(0);
+        game.pickCard(0); // Demeter
+        game.pickCard(3);
         Location loc1 = new Location(0, 0);
         Location loc2 = new Location(1, 1);
         game.selectLocation(loc1);
@@ -259,8 +259,8 @@ public class GameTest {
     @Test
     public void testGodCards() {
         setUp();
-        game.pickCard(2); // Minotaur
-        game.pickCard(3); // Pan
+        game.pickCard(1); // Minotaur
+        game.pickCard(2); // Pan
         Location loc1 = new Location(0, 0);
         Location loc2 = new Location(1, 1);
         game.selectLocation(loc1);
