@@ -1,26 +1,15 @@
 package edu.cmu.cs214.hw3.player;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 import edu.cmu.cs214.hw3.state.Grid;
 import edu.cmu.cs214.hw3.state.Location;
 
 /**
- * Class for player of the game. 
- * 
- * When the user attempts actions, if there is an error, a message will be set to the game instruction,
- * and the user will be allowed to retry that action (no action will happen as a result of a user error).
+ * Class for default player
  */
-public abstract class Player {
-    
-    private Integer id;
-    // Using Maps for extensibility
-    private Map<Integer, Worker> workers;
-    private Map<Integer, Location> workerPositions;
-
-    public static Map<Integer, Player> players = new HashMap<Integer, Player>(); // to access each player
+public class DefaultPlayer extends Player {
 
     /**
      * Creates a new {@link Player} instance.
@@ -30,12 +19,8 @@ public abstract class Player {
      * @param w1 The player's first {@link Worker}
      * @param w2 The player's second {@link Worker}
      */
-    public Player(int id, Worker w1, Worker w2) {
-        this.id = id;
-        this.workers = new HashMap<Integer, Worker>();
-        this.workers.put(w1.getID(), w1);
-        this.workers.put(w2.getID(), w2);
-        this.workerPositions = new HashMap<Integer, Location>();
+    public DefaultPlayer(int id, Worker w1, Worker w2) {
+        super(id, w1, w2);
     }
 
     public static Map<Integer, Player> getPlayers() {
@@ -43,27 +28,27 @@ public abstract class Player {
     }
 
     public Integer getID() {
-        return this.id;
+        return super.getID();
     }
 
     public Map<Integer, Worker> getWorkers() {
-        return this.workers;
+        return super.getWorkers();
     }
 
     public Map<Integer, Location> getWorkerPositions() {
-        return this.workerPositions;
+        return super.getWorkerPositions();
     }
     
     public Collection<Location> getAllPositions() {
-        return this.workerPositions.values();
+        return super.getAllPositions();
     }
 
     public Worker getWorker(Integer wid) {
-        return this.workers.get(wid);
+        return super.getWorker(wid);
     }
 
     public Location getWorkerPosition(Integer wid) {
-        return this.workerPositions.get(wid);
+        return super.getWorkerPosition(wid);
     }
 
     /**
@@ -73,10 +58,7 @@ public abstract class Player {
      * @return {@code true} if any of the player's workers is adjacent to the location.
      */
     protected boolean isAdj(Location loc) {
-        for (Integer key: this.workers.keySet()) {
-            if (getWorker(key).isAdjLocation(loc)) return true;
-        }
-        return false;
+        return super.isAdj(loc);
     }
 
     /**
@@ -87,11 +69,7 @@ public abstract class Player {
      *                         -1 if none of the current player's workers are at the location.
      */
     public Integer getWorkerFromLocation(Location loc) {
-        for (Integer wid: this.workers.keySet()) {
-            if (getWorker(wid).getPosition().equals(loc))
-                return wid;
-        }
-        return -1;
+        return super.getWorkerFromLocation(loc);
     }
 
     /**
@@ -101,9 +79,7 @@ public abstract class Player {
      * @param loc The destination {@link Location}
      */
     public void place(Integer wid, Location loc) {
-        Worker worker = getWorker(wid);
-        worker.move(loc);
-        this.workerPositions.put(wid, loc);
+        super.place(wid, loc);
     }
 
     /**
@@ -113,12 +89,7 @@ public abstract class Player {
      * @return {@code true} if a player has won the game.
      */
     public boolean checkWin(Grid grid) {
-        Collection<Location> plocs = this.getAllPositions();
-        for (Location loc: plocs) {
-            // checks if any of the player's workers are on a level 3 tower
-            if (grid.highest(loc)) return true;
-        }
-        return false;
+        return super.checkWin(grid);
     }
 
     /**
@@ -134,17 +105,7 @@ public abstract class Player {
      * @error If the locations are previously occupied, there will be no action.
      */
     public String placeWorkers(Location loc1, Location loc2, Grid grid) {
-        if (!loc1.checkValidLocation() || !loc2.checkValidLocation()) {
-            return String.format("Player %d: Please input valid location (rows 0-4, cols 0-4)", this.id);
-        } else if (loc1.equals(loc2)) {
-            return String.format("Player %d: Please input 2 distinct locations", this.id);
-        }
-        if (!grid.tryPlace(loc1, loc2)) {
-            return String.format("Player %d: Please input unoccupied locations", this.id);
-        }
-        this.place(1, loc1);
-        this.place(2, loc2);
-        return "success";
+        return super.placeWorkers(loc1, loc2, grid);
     }
 
     /**
@@ -162,22 +123,7 @@ public abstract class Player {
      * @error If the location is previously occupied or unclimbable, there will be no action.
      */
     public String move(Location curr, Location next, Grid grid) {
-        if (!curr.checkValidLocation() || !next.checkValidLocation()) {
-            return String.format("Player %d: Please input valid location (rows 0-4, cols 0-4)", this.id);
-        }
-        Integer wid = this.getWorkerFromLocation(curr);
-        if (wid == -1) {
-            return String.format("Player %d: Please select a worker to move", this.id);
-        }
-        if (!getWorker(wid).isAdjLocation(next)) {
-            return String.format("Player %d: Please input adjacent location", this.id);
-        }
-        Location prevPos = this.getWorkerPosition(wid);
-        if (!grid.tryMove(prevPos, next)) {
-            return String.format("Player %d: Please input unoccupied climbable location", this.id);
-        }
-        this.place(wid, next);
-        return "success";
+        return super.move(curr, next, grid);
     }
 
     /**
@@ -192,16 +138,7 @@ public abstract class Player {
      * @error If the location is previously occupied, there will be no action.
      */
     public String build(Location loc, Grid grid) {
-        if (!loc.checkValidLocation()) {
-            return String.format("Player %d: Please input valid location (rows 0-4, cols 0-4)", this.id);
-        }
-        if (!this.isAdj(loc)) {
-            return String.format("Player %d: Please input adjacent location to a worker", this.id);
-        }
-        if (!grid.tryBuild(loc)) {
-            return String.format("Player %d: Grid is occupied at that location or the tower is domed", this.id);
-        }
-        return "success";
+        return super.build(loc, grid);
     }
 
 }

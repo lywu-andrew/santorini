@@ -3,6 +3,7 @@ package edu.cmu.cs214.hw3;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.cmu.cs214.hw3.player.DefaultPlayer;
 import edu.cmu.cs214.hw3.player.Player;
 import edu.cmu.cs214.hw3.player.Worker;
 import edu.cmu.cs214.hw3.player.godcards.Demeter;
@@ -26,7 +27,7 @@ public class GodCardTest {
         pan = new Pan(1, new Worker(1), new Worker(2));
         demeter = new Demeter(1, new Worker(1), new Worker(2));
         minotaur = new Minotaur(1, new Worker(1), new Worker(2));
-        p = new Player(2, new Worker(1), new Worker(2));
+        p = new DefaultPlayer(2, new Worker(1), new Worker(2));
         grid = new Grid();
     }
 

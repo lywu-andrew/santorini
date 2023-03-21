@@ -1,5 +1,6 @@
 package edu.cmu.cs214.hw3;
 
+import edu.cmu.cs214.hw3.player.DefaultPlayer;
 import edu.cmu.cs214.hw3.player.Player;
 import edu.cmu.cs214.hw3.player.Worker;
 import edu.cmu.cs214.hw3.player.godcards.Demeter;
@@ -35,8 +36,8 @@ public class Game {
      * next action, selected location, and current instruction.
      */
     public Game() {
-        this.p1 = new Player(1, new Worker(1), new Worker(2));
-        this.p2 = new Player(2, new Worker(1), new Worker(2));
+        this.p1 = new DefaultPlayer(1, new Worker(1), new Worker(2));
+        this.p2 = new DefaultPlayer(2, new Worker(1), new Worker(2));
         this.grid = new Grid();
         this.hasGameEnded = false;
         this.playerTurn = p1.getID();
@@ -121,7 +122,7 @@ public class Game {
             case 0: p = new Demeter(this.playerTurn, new Worker(1), new Worker(2)); break;
             case 1: p = new Minotaur(this.playerTurn, new Worker(1), new Worker(2)); break;
             case 2: p = new Pan(this.playerTurn, new Worker(1), new Worker(2)); break;
-            default: p = new Player(this.playerTurn, new Worker(1), new Worker(2)); break;
+            default: p = new DefaultPlayer(this.playerTurn, new Worker(1), new Worker(2)); break;
         }
         if (this.playerTurn == this.p1.getID()) {
             this.p1 = p;
