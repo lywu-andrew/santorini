@@ -16,6 +16,10 @@ public class Demeter extends Player {
 
     /**
      * Creates a new {@link Demeter} instance.
+     * 
+     * @param id Player id
+     * @param w1 The player's first {@link Worker}
+     * @param w2 The player's second {@link Worker}
      */
     public Demeter(int id, Worker w1, Worker w2) {
         super(id, w1, w2);
