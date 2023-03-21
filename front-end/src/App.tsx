@@ -131,10 +131,10 @@ class App extends React.Component<Props, GameState> {
           {this.state.cells.map((cell, i) => this.createCell(cell, i))}
         </div>
         <div id="cardbar">
-          <button onClick={this.pickCard(0)}>Player</button>
-          <button onClick={this.pickCard(1)}>Demeter</button>
-          <button onClick={this.pickCard(2)}>Minotaur</button>
-          <button onClick={this.pickCard(3)}>Pan</button>
+          <button onClick={this.pickCard(0)}>Demeter</button>
+          <button onClick={this.pickCard(1)}>Minotaur</button>
+          <button onClick={this.pickCard(2)}>Pan</button>
+          <button onClick={this.pickCard(3)}>Player</button>
         </div>
         <div id="bottombar">
           <button onClick={/* get the function, not call the function */this.newGame}>New Game</button>

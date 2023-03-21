@@ -24,10 +24,10 @@ public class Game {
     private boolean selected;
     private String instruction;
 
-    private final static Integer PLACE_WRKS = 0;
-    private final static Integer MOVE = 1;
-    private final static Integer BUILD = 2;
-    private final static Integer PICK_CARD = 3;
+    private static final Integer PLACE_WRKS = 0;
+    private static final Integer MOVE = 1;
+    private static final Integer BUILD = 2;
+    private static final Integer PICK_CARD = 3;
 
     /**
      * Creates a new {@link Game} instance, which contains the players.
@@ -111,19 +111,19 @@ public class Game {
 
     /**
      * User can pick a god card.
-     * 0 = default Player, 1 = Demeter, 2 = Minotaur, 3 = Pan
+     * 0 = Demeter, 1 = Minotaur, 2 = Pan, 3 = default Player
      *
      * @param num The {@link Integer} which represents the user's selection
      */
     public void pickCard(Integer num) {
         Player p = null;
         switch(num) {
-            case 1: p = new Demeter(this.playerTurn, new Worker(1), new Worker(2)); break;
-            case 2: p = new Minotaur(this.playerTurn, new Worker(1), new Worker(2)); break;
-            case 3: p = new Pan(this.playerTurn, new Worker(1), new Worker(2)); break;
+            case 0: p = new Demeter(this.playerTurn, new Worker(1), new Worker(2)); break;
+            case 1: p = new Minotaur(this.playerTurn, new Worker(1), new Worker(2)); break;
+            case 2: p = new Pan(this.playerTurn, new Worker(1), new Worker(2)); break;
             default: p = new Player(this.playerTurn, new Worker(1), new Worker(2)); break;
         }
-        if (this.playerTurn == 1) {
+        if (this.playerTurn == this.p1.getID()) {
             this.p1 = p;
             Player.getPlayers().put(p1.getID(), this.p1);
         } else {
